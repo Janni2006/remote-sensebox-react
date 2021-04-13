@@ -1,33 +1,22 @@
-
-const path = require("path");
-const webpack = require("webpack");
-
+const path = require('path');
 module.exports = {
-    entry: "./src/index.js",
+    entry: './src/app.js',
     output: {
-        path: path.resolve(__dirname, "./static/frontend"),
-        filename: "[name].js",
+        filename: 'bundle.js',
+        path: path.join(__dirname, 'public')
     },
     module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                },
-            },
-        ],
+        rules: [{
+            loader: 'babel-loader',
+            test: /\.js$/,
+            exclude: /node_modules/
+        }]
     },
     optimization: {
-        minimize: true,
+        minimize: true
     },
-    plugins: [
-        new webpack.DefinePlugin({
-            "process.env": {
-                // This has effect on the react lib size
-                NODE_ENV: JSON.stringify("production"),
-            },
-        }),
-    ],
+    mode: 'development',
+    devServer: {
+        contentBase: path.join(__dirname, 'public')
+    }
 };
