@@ -19,30 +19,30 @@ function FileUploadField() {
     const uploadFile = () => {
         const formData = new FormData();
         formData.append('file', file); // appending file
-        axios.post('http://192.168.1.134/upload', formData, {
-            onUploadProgress: (ProgressEvent) => {
-                let progress = Math.round(
-                    ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
-                setProgess(progress);
-            }
-        }).then(res => {
-            console.log(res);
-        }).catch(err => console.log(err))
-        // fetch("http://192.168.1.134/upload", {
-        //     method: 'POST',
-        //     headers: {
-        //         'Accept': 'application/json'
-        //     },
-        //     body: formData
-        // }).then((response) => {
-        //     return response.text();
-        // })
+        // axios.post('http://192.168.1.134/upload', formData, {
+        //     onUploadProgress: (ProgressEvent) => {
+        //         let progress = Math.round(
+        //             ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
+        //         setProgess(progress);
+        //     }
+        // }).then(res => {
+        //     console.log(res);
+        // }).catch(err => console.log(err))
+        fetch("http://192.168.1.134/api/upload", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: formData
+        }).then((response) => {
+            return response.text();
+        })
     }
 
     return (
         <div>
             <div className="file-upload">
-                <input type="file" ref={el} onChange={handleChange} />
+                <input type="file" ref={el} onChange={handleChange} accept=".ino" />
                 <div className="progessBar" style={{ width: progress }}>
                     {progress}
                 </div>
