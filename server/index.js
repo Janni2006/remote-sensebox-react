@@ -5,13 +5,10 @@ var cookieParser = require('cookie-parser');
 const app = express();
 const cors = require('cors');
 const axios = require('axios').default;
-
+const startJobs = require('./handlers/startHandler')
 const apiRouter = require('./api/api')
+var cookieSession = require('cookie-session')
 
-const jsonServer = require('json-server');
-const server = jsonServer.create();
-const router = jsonServer.router('db.json');
-const middlewares = jsonServer.defaults();
 require('dotenv/config')
 
 global.__basedir = __dirname.split("/").splice(0, __dirname.split("/").length - 1).join("/")
@@ -23,16 +20,15 @@ app.use(cookieParser());
 app.use(session({
   secret: "asdhfgmhjmjasesadtzrzrtzrtzbnvbn",
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   rolling: false,
   cookie: {
-    secure: false,
+    secure: true,
     maxAge: 1000 * 60 * 60 * 6
   },
 }));
 app.use(express.static('public'));
-app.use(middlewares);
-app.use("/json-server", router);
+// app.use(middlewares);
 
 app.use("/api", apiRouter);
 
@@ -44,7 +40,12 @@ app.get('/queue', (req, res) => {
       if (test.queue_position != 0)
         queue.push(test);
     }
-    res.json(queue)
+    const queue_ordered = Object.keys(queue).map(function (key) {
+      return queue[key];
+    }).sort(function (firstItem, secondItem) {
+      return firstItem.queue_position < secondItem.queue_position;
+    });
+    res.json(queue_ordered)
   })
     .catch(function (error) {
       // handle error
@@ -53,6 +54,8 @@ app.get('/queue', (req, res) => {
 });
 
 app.get('/', (req, res) => { res.sendFile(__dirname + "/index.html") });
+
+startJobs();
 
 app.listen(process.env.PORT || 4000,
   () => console.log(`Example app listening at http://localhost:${process.env.PORT || 4000}`)

@@ -5,12 +5,13 @@ const path = require('path');
 const axios = require('axios').default;
 const uploadRouter = express.Router();
 
-uploadRouter.get('/upload', (req, res) => {
-    console.log(req.sessionID);
+uploadRouter.get("/", (req, res) => {
+    console.log(req.headers.deviceID);
     res.send(JSON.stringify(req.session));
 });
 
 uploadRouter.post("/", async function (req, res) {
+    console.log(req.headers.deviceID)
     let sketch;
     let uploadPath;
 
@@ -20,15 +21,15 @@ uploadRouter.post("/", async function (req, res) {
 
     sketch = req.files.file;
 
-    shell.exec('mkdir ' + path.join(__basedir, '/uploads/', req.sessionID))
-    uploadPath = path.join(__basedir, '/uploads/', req.sessionID, '/') + crypto.randomBytes(4).toString('hex') + ".ino";
+    shell.exec('mkdir ' + path.join(__basedir, '/uploads/', req.headers.deviceID))
+    uploadPath = path.join(__basedir, '/uploads/', req.headers.deviceID, '/') + crypto.randomBytes(4).toString('hex') + ".ino";
 
     // if (sketch.name.split(".")[sketch.name.split(".").length] != "ino") {
     //     return res.status(400).send("Invalid data type!")
     // }
 
     var queuePosition = 1;
-    await axios.get('http://localhost/json-server/uploads').then(function (response) {
+    await axios.get(process.env.JSON_SERVER + '/uploads').then(function (response) {
         for (const test of response.data) {
             if (test.queue_position != 0) {
                 queuePosition++;
@@ -42,11 +43,11 @@ uploadRouter.post("/", async function (req, res) {
             return res.status(500).send(err);
         }
 
-        axios.post('http://localhost/json-server/uploads', {
+        axios.post(process.env.JSON_SERVER + '/uploads', {
             sketch: uploadPath,
             queue_position: queuePosition,
-            friendly_name: sketch.name,
-            user: req.sessionID,
+            friendly_name: sketch.name.split(".")[0],
+            user: req.headers.deviceID,
             created: Date.now()
         })
             .then(res.send('File uploaded!'));
