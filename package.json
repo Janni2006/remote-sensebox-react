@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "start": "node backend/index.js",
-    "dev-server": "nodemon backend/index.js",
+    "dev-server": "nodemon --watch backend/index.js",
     "dev": "webpack --mode development --watch"
   },
   "keywords": [],
