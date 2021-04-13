@@ -9,6 +9,11 @@ const fs = require('fs');
 const path = require('path');
 // const CronJob = require('cron').CronJob;
 const axios = require('axios').default;
+
+const jsonServer = require('json-server');
+const server = jsonServer.create();
+const router = jsonServer.router('db.json');
+const middlewares = jsonServer.defaults();
 require('dotenv/config')
 
 global.__basedir = __dirname.split("/").splice(0, __dirname.split("/").length - 1).join("/")
@@ -28,6 +33,8 @@ app.use(session({
   },
 }));
 app.use(express.static('public'));
+app.use(middlewares);
+app.use("/json-server", router);
 
 
 app.get('/upload', (req, res) => { console.log(req.sessionID), res.send(JSON.stringify(req.session)) });

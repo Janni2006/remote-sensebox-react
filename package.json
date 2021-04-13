@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --host 0.0.0.0",
+    "start": "node backend/index.js",
     "start-server": "nodemon backend/index.js",
     "json-server": "json-server --watch database.json",
     "dev": "webpack --mode development --watch"
@@ -32,6 +32,7 @@
     "express-fileupload": "^1.2.1",
     "express-session": "^1.17.1",
     "fs": "0.0.1-security",
+    "json-server": "^0.16.3",
     "mongoose": "^5.12.3",
     "nodemon": "^2.0.7",
     "react": "^16.14.0",
