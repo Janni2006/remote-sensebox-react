@@ -5,12 +5,12 @@ const fs = require('fs');
 const axios = require('axios').default;
 const uploadRouter = express.Router();
 
-uploadRouter.get("/", (req, res) => {
+uploadRouter.get("/upload", (req, res) => {
     console.log(req.headers.deviceid);
     res.send(JSON.stringify(req.session));
 });
 
-uploadRouter.post("/", async function (req, res) {
+uploadRouter.post("/upload", async function (req, res) {
     console.log(req.headers.deviceid)
     let sketch;
     let uploadPath;

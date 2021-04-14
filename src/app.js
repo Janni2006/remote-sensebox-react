@@ -4,7 +4,6 @@ import FileUpload from './fileupload';
 import Queue from './components/Queue';
 import Navbar from './components/Navbar';
 import Grid from "@material-ui/core/Grid";
-import './app.css'
 
 
 class App extends Component {
@@ -22,7 +21,6 @@ class App extends Component {
                     localStorage.setItem("deviceID", data.deviceID);
                 })
         }
-        console.log(localStorage.getItem("deviceID"))
     }
     render() {
         return (
@@ -30,9 +28,6 @@ class App extends Component {
             <div>
                 <Navbar />
                 <Grid container spacing={1}>
-                    <Grid item xs={12} align="center">
-                        <FileUpload />
-                    </Grid>
                     <Grid item xs={12} align="center">
                         <Queue />
                     </Grid>
