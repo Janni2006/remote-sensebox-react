@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import FileUpload from './fileupload';
-import Queue from './components/Queue'
+import Queue from './components/Queue';
+import Navbar from './components/Navbar';
 import Grid from "@material-ui/core/Grid";
+import './app.css'
 
 
 class App extends Component {
@@ -25,16 +27,17 @@ class App extends Component {
     render() {
         return (
             // this.state.loading ? null : <FileUpload />
-            <Grid container spacing={1}>
-                <Grid item xs={12} align="center">
-                    <FileUpload />
+            <div>
+                <Navbar />
+                <Grid container spacing={1}>
+                    <Grid item xs={12} align="center">
+                        <FileUpload />
+                    </Grid>
+                    <Grid item xs={12} align="center">
+                        <Queue />
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} align="center">
-                    <Queue />
-                </Grid>
-            </Grid>
-
-
+            </div>
         )
     }
 }
