@@ -49,7 +49,8 @@ uploadRouter.post("/", async function (req, res) {
             queue_position: queuePosition,
             friendly_name: sketch.name.split(".")[0],
             user: req.headers.deviceid,
-            created: Date.now()
+            created: Date.now(),
+            uploaded: ""
         })
             .then(res.send('File uploaded!'));
 

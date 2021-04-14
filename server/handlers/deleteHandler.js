@@ -6,7 +6,7 @@ const path = require('path');
 module.exports = new CronJob('1 * * * * *', async function () {
     axios.get(process.env.JSON_SERVER + '/uploads').then(function (response) {
         for (const object of response.data) {
-            if (object.created < Date.now() - 1000) {
+            if (object.created < Date.now() - 1000 * 60 * 60 && object.queue_position == 0) {
                 var result = ""
                 axios.get(process.env.JSON_SERVER + '/uploads?user=' + object.user).then(function (second_response) {
                     if (second_response.data.length >= 2) {
