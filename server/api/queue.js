@@ -7,13 +7,17 @@ queueRouter.get('/queue', (req, res) => {
         const queue = [];
 
         for (const item of response.data) {
-            if (item.queue_position != 0)
+            if (!item.demo_completed) {
+                var progress = Date.now() - item.uploaded;
+                progress = Math.round((progress / process.env.SKETCH_RUNTIME) * 100);
                 queue.push({
                     friendly_name: item.friendly_name,
                     private: item.user == req.headers.deviceid,
-                    running: item.queue_position == 1,
-                    queue_position: item.queue_position
+                    running: item.queue_position == 0,
+                    queue_position: item.queue_position,
+                    progress: item.queue_position == 0 ? progress : 0
                 });
+            }
         }
         const queue_ordered = Object.keys(queue).map(function (key) {
             return queue[key];
@@ -25,7 +29,7 @@ queueRouter.get('/queue', (req, res) => {
         .catch(function (error) {
             // handle error
             res.status(500).json(error)
-        })
+        });
 });
 
 module.exports = queueRouter;
