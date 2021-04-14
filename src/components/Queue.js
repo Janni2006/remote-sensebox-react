@@ -17,7 +17,7 @@ class Queue extends Component {
     }
 
     getData = () => {
-        fetch("http://192.168.1.134/queue", {
+        fetch("http://192.168.1.134/api/queue", {
             method: 'GET',
             headers: {
                 'deviceID': localStorage.getItem("deviceID").toString()

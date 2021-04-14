@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 
-// import senseboxLogo from './sensebox_logo.svg';
+import SenseboxLogo from './sensebox_logo.svg';
 
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -66,7 +66,7 @@ class Navbar extends Component {
             <div>
                 <AppBar
                     position="relative"
-                    style={{ height: '50px', marginBottom: '30px', boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)', margin: '0px' }}
+                    style={{ height: '50px', marginBottom: '30px', boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)', backgroundColor: '#4eaf46' }}
                 >
                     <Toolbar style={{ height: '50px', minHeight: '50px', padding: 0, color: 'white' }}>
                         <IconButton
@@ -77,10 +77,13 @@ class Navbar extends Component {
                         >
                             <FontAwesomeIcon icon={faBars} />
                         </IconButton>
-                        <div to={"/"} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <div style={{ textDecoration: 'none', color: 'inherit' }}>
                             <Typography variant="h6" noWrap>
                                 senseBox Blockly
                             </Typography>
+                        </div>
+                        <div style={{ marginLeft: '10px' }}>
+                            <SenseboxLogo style={{ width: '30px' }} />
                         </div>
                     </Toolbar>
                 </AppBar>
@@ -91,10 +94,10 @@ class Navbar extends Component {
                     open={this.state.open}
                     ModalProps={{ keepMounted: true }} // Better open performance on mobile.
                 >
-                    <div style={{ height: '50px', cursor: 'pointer', color: 'white', padding: '0 22px' }} onClick={this.toggleDrawer}>
+                    <div style={{ height: '50px', cursor: 'pointer', color: 'white', padding: '0 22px', backgroundColor: '#4eaf46' }} onClick={this.toggleDrawer}>
                         <div style={{ display: ' table-cell', verticalAlign: 'middle', height: 'inherit', width: '0.1%' }}>
                             <Typography variant="h6" style={{ display: 'inline' }}>
-                                {/* {Blockly.Msg.navbar_menu} */}
+                                Menü
                             </Typography>
                             <div style={{ float: 'right' }}>
                                 <FontAwesomeIcon icon={faChevronLeft} />
@@ -102,16 +105,13 @@ class Navbar extends Component {
                         </div>
                     </div>
                     <List>
-                        {[].map((item, index) => {
+                        {[{ text: "Blockly.Msg.navbar_tutorials", icon: faChalkboardTeacher, link: "/tutorial" }].map((item, index) => {
                             if (item.restriction || Object.keys(item).filter(attribute => attribute === 'restriction').length === 0) {
                                 return (
-                                    // <Link to={item.link} key={index} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                    //     <ListItem button onClick={this.toggleDrawer}>
-                                    //         <ListItemIcon><FontAwesomeIcon icon={item.icon} /></ListItemIcon>
-                                    //         <ListItemText primary={item.text} />
-                                    //     </ListItem>
-                                    // </Link>
-                                    null
+                                    <ListItem button onClick={this.toggleDrawer} key={index} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                        <ListItemIcon><FontAwesomeIcon icon={item.icon} /></ListItemIcon>
+                                        <ListItemText primary={item.text} />
+                                    </ListItem>
                                 );
                             }
                             else {

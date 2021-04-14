@@ -32,27 +32,6 @@ app.use(express.static('./public'));
 
 app.use("/api", apiRouter);
 
-app.get('/queue', (req, res) => {
-  axios.get(process.env.JSON_SERVER + '/uploads').then(function (response) {
-    const queue = [];
-
-    for (const test of response.data) {
-      if (test.queue_position != 0)
-        queue.push(test);
-    }
-    const queue_ordered = Object.keys(queue).map(function (key) {
-      return queue[key];
-    }).sort(function (firstItem, secondItem) {
-      return firstItem.queue_position < secondItem.queue_position;
-    });
-    res.json(queue_ordered);
-  })
-    .catch(function (error) {
-      // handle error
-      res.status(500).json(error)
-    })
-});
-
 app.get('/', (req, res) => { res.sendFile(__dirname + "/index.html") });
 
 startJobs();
