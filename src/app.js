@@ -7,7 +7,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            device_registration: true
+            loading: true
         }
     }
     async componentDidMount() {
@@ -18,7 +18,7 @@ class App extends React.Component {
                     localStorage.setItem("deviceID", data.deviceID);
                 })
         }
-        this.setState({ device_registration: false });
+        this.setState({ loading: false });
         console.log(localStorage.getItem("deviceID"))
     }
     render() {

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+
 function FileUploadField() {
 
     const [file, setFile] = useState(''); // storing the uploaded file
@@ -6,7 +7,6 @@ function FileUploadField() {
     const el = useRef(); // accesing input element
 
     const handleChange = (e) => {
-        setProgess(0)
         const file = e.target.files[0]; // accessing file
         console.log(file);
         setFile(file); // storing file
@@ -19,7 +19,7 @@ function FileUploadField() {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'deviceID': localStorage.getItem("deviceID")
+                'deviceID': localStorage.getItem("deviceID").toString()
             },
             body: formData
         }).then((response) => {
@@ -31,9 +31,6 @@ function FileUploadField() {
         <div>
             <div className="file-upload">
                 <input type="file" ref={el} onChange={handleChange} accept=".ino" />
-                <div className="progessBar" style={{ width: progress }}>
-                    {progress}
-                </div>
                 <button onClick={uploadFile} className="upbutton">
                     Upload
                 </button>
@@ -43,7 +40,17 @@ function FileUploadField() {
 }
 
 class FileUpload extends React.Component {
-    componentDidMount() { }
+    componentDidMount() {
+        fetch("http://192.168.1.134/api/upload", {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'deviceid': localStorage.getItem("deviceID").toString()
+            },
+        }).then((response) => {
+            console.log(response)
+        })
+    }
     render() {
         return (
             <FileUploadField />
