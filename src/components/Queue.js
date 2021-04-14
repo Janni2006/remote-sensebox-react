@@ -1,0 +1,36 @@
+import React, { Component } from 'react';
+import QueueObject from "./QueueItem"
+
+class Queue extends Component {
+    state = {
+        queue: []
+    }
+    componentDidMount() {
+        fetch("http://192.168.1.134/queue", {
+            method: 'GET',
+            headers: {
+                'deviceID': localStorage.getItem("deviceID").toString()
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                var id = 1;
+                var new_queue = [];
+                for (var c_position = 0; c_position < data.length; c_position++) {
+                    new_queue.push({ id: id, friendly_name: data[c_position].friendly_name });
+                    id++;
+                }
+                this.setState({ queue: new_queue })
+            })
+    }
+    render() {
+        return (
+            <div>
+                { this.state.queue.map(queue_item => <QueueObject key={queue_item.id} friendly_name={queue_item.friendly_name} />)}
+            </div>
+
+        )
+    }
+}
+
+export default Queue;

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import FileUpload from './fileupload';
+import Queue from './components/Queue'
+import Grid from "@material-ui/core/Grid";
 
 
-class App extends React.Component {
+class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,12 +20,21 @@ class App extends React.Component {
                     localStorage.setItem("deviceID", data.deviceID);
                 })
         }
-        this.setState({ loading: false });
         console.log(localStorage.getItem("deviceID"))
     }
     render() {
         return (
-            <FileUpload />
+            // this.state.loading ? null : <FileUpload />
+            <Grid container spacing={1}>
+                <Grid item xs={12} align="center">
+                    <FileUpload />
+                </Grid>
+                <Grid item xs={12} align="center">
+                    <Queue />
+                </Grid>
+            </Grid>
+
+
         )
     }
 }

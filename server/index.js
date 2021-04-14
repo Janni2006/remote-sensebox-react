@@ -27,13 +27,13 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 6
   },
 }));
-app.use(express.static('public'));
+app.use(express.static('./public'));
 // app.use(middlewares);
 
 app.use("/api", apiRouter);
 
 app.get('/queue', (req, res) => {
-  axios.get('http://localhost/json-server/uploads').then(function (response) {
+  axios.get(process.env.JSON_SERVER + '/uploads').then(function (response) {
     const queue = [];
 
     for (const test of response.data) {
@@ -45,11 +45,11 @@ app.get('/queue', (req, res) => {
     }).sort(function (firstItem, secondItem) {
       return firstItem.queue_position < secondItem.queue_position;
     });
-    res.json(queue_ordered)
+    res.json(queue_ordered);
   })
     .catch(function (error) {
       // handle error
-      console.log(error);
+      res.status(500).json(error)
     })
 });
 

@@ -40,20 +40,10 @@ function FileUploadField() {
 }
 
 class FileUpload extends React.Component {
-    componentDidMount() {
-        fetch("http://192.168.1.134/api/upload", {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'deviceid': localStorage.getItem("deviceID").toString()
-            },
-        }).then((response) => {
-            console.log(response)
-        })
-    }
     render() {
         return (
             <FileUploadField />
+
         )
     }
 }
