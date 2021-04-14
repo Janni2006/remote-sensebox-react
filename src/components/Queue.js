@@ -5,7 +5,18 @@ class Queue extends Component {
     state = {
         queue: []
     }
+
+    getData_intervalID;
     componentDidMount() {
+        this.getData();
+        this.getData_intervalID = setInterval(this.getData, 1000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.getData_intervalID);
+    }
+
+    getData = () => {
         fetch("http://192.168.1.134/queue", {
             method: 'GET',
             headers: {
@@ -23,6 +34,7 @@ class Queue extends Component {
                 this.setState({ queue: new_queue })
             })
     }
+
     render() {
         return (
             <div>
