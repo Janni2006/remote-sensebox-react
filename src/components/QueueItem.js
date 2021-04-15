@@ -14,11 +14,10 @@ class QueueObject extends Component {
 
     render() {
         return (
-            <ListItem style={{ backgroundColor: 'white', boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)' }}>
+            <ListItem style={{ backgroundColor: 'white', boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)', marginBottom: '10px' }}>
                 <Grid container spacing={1}>
                     <Grid item xs={12} align="center">
-                        <p>{this.state.friendly_name}</p>
-                        {this.state.private ? <p>Dein Sketch</p> : null}
+                        <p>{this.state.friendly_name}, {this.state.progress}</p>
                         {this.state.running ? <CircularProgress /> : null}
                         <LinearProgress_api progress={this.state.progress} />
                     </Grid>
