@@ -16,7 +16,7 @@ class App extends Component {
     }
     async componentDidMount() {
         if (localStorage.getItem("deviceID") === null) {
-            fetch("http://192.168.1.134/api/device/register")
+            fetch(window.location.origin + "/api/device/register")
                 .then((response) => response.json())
                 .then((data) => {
                     localStorage.setItem("deviceID", data.deviceID);

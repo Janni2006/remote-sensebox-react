@@ -18,7 +18,7 @@ function Queue() {
     React.useEffect(() => {
         const timer = setInterval(async function () {
             var new_queue = [];
-            await fetch("http://192.168.1.134/api/queue", {
+            await fetch(window.location.origin + "/api/queue", {
                 method: 'GET',
                 headers: {
                     'deviceID': localStorage.getItem("deviceID").toString()
@@ -26,23 +26,22 @@ function Queue() {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log("Processing Data")
                     var id = 1;
 
-                    for (var c_position = 0; c_position < data.length; c_position++) {
+                    for (var c_position = 0; c_position < data.queue.length; c_position++) {
                         new_queue.push({
                             id: id,
-                            friendly_name: data[c_position].friendly_name,
-                            private: data[c_position].private,
-                            running: data[c_position].running,
-                            progress: data[c_position].progress
+                            friendly_name: data.queue[c_position].friendly_name,
+                            private: data.queue[c_position].private,
+                            running: data.queue[c_position].running,
+                            progress: data.queue[c_position].progress
                         });
                         id++;
                     }
-                    console.log(new_queue)
                 });
             setQueue(new_queue)
             console.log(queue)
+            console.log(new_queue)
         }, 1000)
         return () => {
             clearInterval(timer);
@@ -50,7 +49,7 @@ function Queue() {
     }, []);
     const update = () => {
         var new_queue = [];
-        fetch("http://192.168.1.134/api/queue", {
+        fetch(window.location.origin + "/api/queue", {
             method: 'GET',
             headers: {
                 'deviceID': localStorage.getItem("deviceID").toString()
@@ -61,17 +60,17 @@ function Queue() {
                 console.log("Processing Data")
                 var id = 1;
 
-                for (var c_position = 0; c_position < data.length; c_position++) {
+                for (var c_position = 0; c_position < data.queue.length; c_position++) {
                     new_queue.push({
                         id: id,
-                        friendly_name: data[c_position].friendly_name,
-                        private: data[c_position].private,
-                        running: data[c_position].running,
-                        progress: data[c_position].progress
+                        friendly_name: data.queue[c_position].friendly_name,
+                        private: data.queue[c_position].private,
+                        running: data.queue[c_position].running,
+                        progress: data.queue[c_position].progress
                     });
                     id++;
                 }
-                console.log(new_queue)
+                console.log(data)
             });
         setQueue(new_queue)
         console.log(queue)

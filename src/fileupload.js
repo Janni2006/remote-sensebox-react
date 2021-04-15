@@ -15,7 +15,7 @@ function FileUploadField() {
     const uploadFile = () => {
         const formData = new FormData();
         formData.append('file', file); // appending file
-        fetch("http://192.168.1.134/api/upload", {
+        fetch(window.location.origin + "/api/upload", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

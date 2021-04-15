@@ -19,12 +19,7 @@ queueRouter.get('/queue', (req, res) => {
                 });
             }
         }
-        const queue_ordered = Object.keys(queue).map(function (key) {
-            return queue[key];
-        }).sort(function (firstItem, secondItem) {
-            return firstItem.queue_position < secondItem.queue_position;
-        });
-        res.json(queue_ordered);
+        res.json(queue);
     })
         .catch(function (error) {
             // handle error
