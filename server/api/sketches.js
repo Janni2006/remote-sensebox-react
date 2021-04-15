@@ -21,4 +21,4 @@ sketchRouter.get('/private-sketches', (req, res) => {
         });
 });
 
-module.exports = queueRouter;
+module.exports = sketchRouter;

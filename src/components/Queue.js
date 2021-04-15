@@ -16,6 +16,7 @@ function Queue() {
             });
             const data = await response.json();
             setQueue(data.queue);
+            console.log(queue)
         }, 1000);
         return () => {
             clearInterval(timer);
