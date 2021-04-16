@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import FileUpload from './fileupload';
-import Queue from './components/Queue_test';
+import Queue from './components/Queue';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Grid from "@material-ui/core/Grid";
+import ReactEditor from "./textfile";
 
 
 class App extends Component {
@@ -31,7 +32,8 @@ class App extends Component {
                 <FileUpload />
                 <Grid container spacing={1}>
                     <Grid item xs={12} align="center">
-                        {/* <Queue /> */}
+                        <Queue />
+                        <ReactEditor />
                     </Grid>
                 </Grid>
             </div>

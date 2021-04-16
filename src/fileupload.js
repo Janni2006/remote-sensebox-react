@@ -9,6 +9,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import SaveIcon from '@material-ui/icons/Save';
 import { Tooltip } from '@material-ui/core';
 import Dialog from './components/Dialog';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
@@ -51,38 +52,42 @@ function FileUpload() {
     }
 
     const uploadFile = (file) => {
-        if (file.type !== "ino" && file.type !== "text/xml") {
-            setDialogOpen(true);
-            setDialogTitle("Unzulässiger Dateityp");
-            setDialogContent("Die übergebene Datei entsprach nicht dem geforderten Format. Es sind nur XML- und INO-Dateien zulässig.");
-        } else {
-            setSuccess(false);
-            setLoading(true);
-            const formData = new FormData();
-            formData.append('file', file); // appending file
+        // if (file.type !== "text/x-arduino" && file.type !== "text/xml") {
+        //     setDialogOpen(true);
+        //     setDialogTitle("Unzulässiger Dateityp");
+        //     setDialogContent("Die übergebene Datei entsprach nicht dem geforderten Format. Es sind nur XML- und INO-Dateien zulässig.");
+        // } else {
+        setSuccess(false);
+        setLoading(true);
+        var reader = new FileReader();
+        reader.readAsText(file);
+        reader.onloadend = () => {
+            console.log(reader.result)
             fetch(window.location.origin + "/api/upload", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
+                    'Content-Type': 'appliacation/json',
                     'deviceID': localStorage.getItem("deviceID").toString()
                 },
-                body: formData
+                body: JSON.stringify({ sketch: "reader.result" })
             }).then((response) => {
                 if (response.ok) {
                     setLoading(false);
                     setSuccess(true);
                     setTimeout(function () {
-                        setSuccess(false);
+                        setSuccess(false); 0
                     }, 5000);
                 }
             }).catch((error) => { console.log(error) });
-        }
+        };
+        // }
     }
 
     return (
         <div>
             <div ref={el} style={{ width: 'max-content', height: '40px', marginRight: '5px' }}>
-                <input type="file" ref={el} onChange={(e) => uploadFile(e.target.files[0])} accept=".ino, text/xml" style={{ display: 'none' }} id="upload-sketch" />
+                <input type="file" ref={el} onChange={(e) => uploadFile(e.target.files[0])} accept="text/x-arduino, text/xml" style={{ display: 'none' }} id="upload-sketch" />
                 <label htmlFor="upload-sketch" className={classes.wrapper}>
                     <Tooltip title="Lade deinen Sketch hoch" arrow>
                         <Button

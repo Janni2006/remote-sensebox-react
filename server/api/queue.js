@@ -13,13 +13,14 @@ queueRouter.get('/queue', (req, res) => {
                     progress = (progress / process.env.SKETCH_RUNTIME) * 100;
                     progress = progress > 100 ? 100 : progress;
                     var time_left = item.uploaded ? process.env.SKETCH_RUNTIME * (100 - progress) : process.env.SKETCH_RUNTIME;
-                    if (response.data[1].user !== undefined) {
-                        if (time_left <= 30000 && response.data[1].user == req.headers.deviceid) {
-                            queue.private.begin_30 = true;
-                        }
-                    }
-                    queue.current_wait = queue.current_wait + time_left;
+                    // if (response.data[1].user !== undefined) {
+                    //     if (time_left <= 30000 && response.data[1].user == req.headers.deviceid) {
+                    //         queue.private.begin_30 = true;
+                    //     }
+                    // }
+                    // queue.current_wait = queue.current_wait + time_left;
                     queue.queue.push({
+                        id: item.id,
                         friendly_name: item.friendly_name,
                         private: item.user == req.headers.deviceid,
                         running: item.queue_position == 0,

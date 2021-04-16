@@ -16,7 +16,7 @@ function Queue() {
             });
             const data = await response.json();
             setQueue(data.queue);
-            console.log(queue)
+            console.log(data)
         }, 1000);
         return () => {
             clearInterval(timer);
@@ -25,18 +25,14 @@ function Queue() {
     return (
         <div style={{ width: '300px', borderRadius: '5px', backgroundColor: 'red' }}>
             <List style={{ margin: '10px' }}>
-                {queue.map(queue_item => {
-                    // < QueueObject
-                    //     key={queue_item.id}
-                    //     friendly_name={queue_item.friendly_name}
-                    //     private={queue_item.private}
-                    //     running={queue_item.running}
-                    //     progress={queue_item.progress}
-                    // />
-                    <p key={queue_item.id}>{queue_item.running}</p>
-                })}
-                {queue.map(test => {
-                    <p>{test.private}</p>
+                {queue && queue.map(queue_item => {
+                    return < QueueObject
+                        key={queue_item.id}
+                        friendly_name={queue_item.friendly_name}
+                        private={queue_item.private}
+                        running={queue_item.running}
+                        progress={queue_item.progress}
+                    />
                 })}
             </List>
         </div>

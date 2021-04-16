@@ -17,19 +17,11 @@ require('dotenv/config')
 global.__basedir = __dirname.split("/").splice(0, __dirname.split("/").length - 1).join("/")
 
 
-app.use(cors());
+app.use(cors({ credentials: true }));
 app.use(fileUpload());
 app.use(cookieParser());
-app.use(session({
-  secret: "asdhfgmhjmjasesadtzrzrtzrtzbnvbn",
-  resave: false,
-  saveUninitialized: false,
-  rolling: false,
-  cookie: {
-    secure: true,
-    maxAge: 1000 * 60 * 60 * 6
-  },
-}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
 app.use(express.static('./public'));
 // app.use(middlewares);
 
