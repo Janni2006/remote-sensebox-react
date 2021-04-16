@@ -1,10 +1,7 @@
 const express = require('express');
-const fileUpload = require('express-fileupload');
-const session = require('express-session');
-var cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const app = express();
 const cors = require('cors');
-const axios = require('axios').default;
 const startJobs = require('./handlers/startHandler');
 const apiRouter = require('./api/api');
 const jsonServer = require('json-server');
@@ -18,12 +15,10 @@ global.__basedir = __dirname.split("/").splice(0, __dirname.split("/").length - 
 
 
 app.use(cors({ credentials: true }));
-app.use(fileUpload());
 app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./public'));
-// app.use(middlewares);
 
 app.use("/api", apiRouter);
 

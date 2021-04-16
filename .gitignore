@@ -2,8 +2,6 @@ node_modules
 
 db.json
 
-uploads/**
-
 .env
 
 server/handlers/uploadOldHandler.js

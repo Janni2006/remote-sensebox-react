@@ -2,10 +2,10 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { green } from '@material-ui/core/colors';
+import { green, red } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
 import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
 import { Tooltip } from '@material-ui/core';
 import Dialog from './components/Dialog';
@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: green[700],
         },
     },
+    buttonError: {
+        backgroundColor: red[500],
+        '&:hover': {
+            backgroundColor: red[700],
+        },
+    },
     buttonProgress: {
         color: green[500],
         position: 'absolute',
@@ -36,6 +42,7 @@ function FileUpload() {
     const classes = useStyles();
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
+    const [error, setError] = React.useState(false);
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const [dialogTitle, setDialogTitle] = React.useState("");
     const [dialogContent, setDialogContent] = React.useState("");
@@ -43,6 +50,7 @@ function FileUpload() {
 
     const buttonClassname = clsx({
         [classes.buttonSuccess]: success,
+        [classes.buttonError]: error,
     });
 
     const toggleDialog = () => {
@@ -52,42 +60,57 @@ function FileUpload() {
     }
 
     const uploadFile = (file) => {
-        // if (file.type !== "text/x-arduino" && file.type !== "text/xml") {
-        //     setDialogOpen(true);
-        //     setDialogTitle("Unzulässiger Dateityp");
-        //     setDialogContent("Die übergebene Datei entsprach nicht dem geforderten Format. Es sind nur XML- und INO-Dateien zulässig.");
-        // } else {
-        setSuccess(false);
-        setLoading(true);
-        var reader = new FileReader();
-        reader.readAsText(file);
-        reader.onloadend = () => {
-            console.log(reader.result)
-            fetch(window.location.origin + "/api/upload", {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'appliacation/json',
-                    'deviceID': localStorage.getItem("deviceID").toString()
-                },
-                body: JSON.stringify({ sketch: "reader.result" })
-            }).then((response) => {
-                if (response.ok) {
-                    setLoading(false);
-                    setSuccess(true);
-                    setTimeout(function () {
-                        setSuccess(false); 0
-                    }, 5000);
-                }
-            }).catch((error) => { console.log(error) });
-        };
-        // }
+        console.log(file)
+        if (file.name.split(".")[1] !== "ino") {
+            setDialogOpen(true);
+            setDialogTitle("Unzulässiger Dateityp");
+            setDialogContent("Die übergebene Datei entsprach nicht dem geforderten Format. Es sind nur INO-Dateien zulässig.");
+        } else {
+            setSuccess(false);
+            setLoading(true);
+            if (file.name.split(".")[0] == "") {
+                setDialogOpen(true);
+                setDialogTitle("Kein Dateinamen");
+                setDialogContent("Bitte geben sie der Datei vor dem Hochladen einen Namen.");
+            } else {
+                var reader = new FileReader();
+                reader.readAsText(file);
+                reader.onloadend = () => {
+                    console.log(reader.result)
+                    axios.post(window.location.origin + '/api/upload', {
+                        sketch: reader.result.toString(),
+                        sketch_name: file.name.split(".")[0]
+                    }, { headers: { 'deviceID': localStorage.getItem("deviceID") } })
+                        .then((response) => {
+                            if (response.status == 200) {
+                                setLoading(false);
+                                setSuccess(true);
+                                setTimeout(function () {
+                                    setSuccess(false);
+                                }, 5000);
+                            } else {
+                                setLoading(false);
+                                setError(true);
+                                setTimeout(function () {
+                                    setError(false);
+                                }, 5000);
+                            }
+                        }).catch((error) => {
+                            setLoading(false);
+                            setError(true);
+                            setTimeout(function () {
+                                setError(false);
+                            }, 5000);
+                        })
+                };
+            }
+        }
     }
 
     return (
         <div>
             <div ref={el} style={{ width: 'max-content', height: '40px', marginRight: '5px' }}>
-                <input type="file" ref={el} onChange={(e) => uploadFile(e.target.files[0])} accept="text/x-arduino, text/xml" style={{ display: 'none' }} id="upload-sketch" />
+                <input type="file" ref={el} onChange={(e) => uploadFile(e.target.files[0])} accept=".ino" style={{ display: 'none' }} id="upload-sketch" />
                 <label htmlFor="upload-sketch" className={classes.wrapper}>
                     <Tooltip title="Lade deinen Sketch hoch" arrow>
                         <Button
@@ -96,7 +119,7 @@ function FileUpload() {
                             className={buttonClassname}
                             disabled={loading}
                             component="span"
-                            startIcon={success ? <CheckIcon /> : <SaveIcon />}
+                            startIcon={success ? <CheckIcon /> : error ? <CloseIcon /> : <SaveIcon />}
                         >
                             Hochladen
                     </Button>

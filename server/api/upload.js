@@ -10,47 +10,30 @@ uploadRouter.get("/upload", (req, res) => {
     res.send(JSON.stringify(req.session));
 });
 
-uploadRouter.post("/upload", function (req, res) {
-    console.log(req);
-    // let sketch;
-    // let uploadPath;
+uploadRouter.post("/upload", async function (req, res) {
+    console.log(req.body);
+    const sketch = req.body.sketch;
+    const sketch_name = req.body.sketch_name;
 
-    // if (!req.files || Object.keys(req.files).length === 0) {
-    //     return res.status(400).send('No files were uploaded.');
-    // }
+    var queuePosition = 1;
+    await axios.get(process.env.JSON_SERVER + '/uploads').then(function (response) {
+        for (const test of response.data) {
+            if (test.queue_position != 0) {
+                queuePosition++;
+            }
+        }
+    });
 
-    // // if (sketch.name.split(".")[sketch.name.split(".").length] != "ino") {
-    // //     return res.status(400).send("Invalid data type!")
-    // // }
-
-    // var queuePosition = 1;
-    // await axios.get(process.env.JSON_SERVER + '/uploads').then(function (response) {
-    //     for (const test of response.data) {
-    //         if (test.queue_position != 0) {
-    //             queuePosition++;
-    //         }
-    //     }
-    // });
-
-    // sketch.mv(uploadPath, function (err) {
-    //     if (err) {
-    //         console.log(err);
-    //         return res.status(500).send(err);
-    //     }
-
-    //     axios.post(process.env.JSON_SERVER + '/uploads', {
-    //         sketch: uploadPath,
-    //         queue_position: queuePosition,
-    //         friendly_name: sketch.name.split(".")[0],
-    //         user: req.headers.deviceid,
-    //         updated: Date.now(),
-    //         uploaded: 0,
-    //         demo_completed: false
-    //     })
-    //         .then(res.send('File uploaded!'));
-
-    // });
-    return res.status(200).send("Test")
+    axios.post(process.env.JSON_SERVER + '/uploads', {
+        sketch: sketch,
+        queue_position: queuePosition,
+        friendly_name: sketch_name,
+        user: req.headers.deviceid,
+        updated: Date.now(),
+        uploaded: 0,
+        demo_completed: false
+    })
+        .then(res.status(200).send('File uploaded!'));
 });
 
 uploadRouter.post("/upload/blockly", async function (req, res) {
