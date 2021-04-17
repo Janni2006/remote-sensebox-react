@@ -77,7 +77,7 @@ function FileUpload() {
                 reader.readAsText(file);
                 reader.onloadend = () => {
                     console.log(reader.result)
-                    axios.post(window.location.origin + '/api/upload', {
+                    axios.post("${process.env.BACKEND_URL}/api/queue", {
                         sketch: reader.result.toString(),
                         sketch_name: file.name.split(".")[0]
                     }, { headers: { 'deviceID': localStorage.getItem("deviceID") } })
