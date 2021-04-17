@@ -1,5 +1,5 @@
 import React from 'react';
-import { Block, Value, Field, Shadow, Category } from '../';
+import { Block, Value, Field, Category } from '../';
 import { getColour } from '../helpers/colour'
 import '@blockly/block-plus-minus';
 import { TypedVariableModal } from '@blockly/plugin-typed-variable-modal';
@@ -39,35 +39,22 @@ class Toolbox extends React.Component {
         return (
             <xml xmlns="https://developers.google.com/blockly/xml" id="blockly" style={{ display: 'none' }} ref={this.props.toolbox}>
                 <Category name={Blockly.Msg.toolbox_sensors} colour={getColour().sensebox}>
-                    <Block type="sensebox_sensor_temp_hum" />
+                    {/* <Block type="sensebox_sensor_temp_hum" /> */}
                     <Block type="sensebox_sensor_uv_light" />
-                    <Block type="sensebox_sensor_bmx055_accelerometer" />
-                    <Block type="sensebox_sensor_sds011" />
+                    {/* <Block type="sensebox_sensor_bmx055_accelerometer" /> */}
+                    {/* <Block type="sensebox_sensor_sds011" /> */}
                     <Block type="sensebox_sensor_pressure" />
-                    <Block type="sensebox_sensor_bme680_bsec" />
-                    <Block type="sensebox_scd30" />
-                    <Block type="sensebox_gps" />
-                    <Block type="sensebox_sensor_ultrasonic_ranger" />
-                    <Block type="sensebox_sensor_sound" />
-                    <Block type="sensebox_button" />
+                    {/* <Block type="sensebox_sensor_bme680_bsec" /> */}
+                    {/* <Block type="sensebox_scd30" /> */}
+                    {/* <Block type="sensebox_gps" /> */}
+                    {/* <Block type="sensebox_sensor_ultrasonic_ranger" /> */}
+                    {/* <Block type="sensebox_sensor_sound" /> */}
+                    {/* <Block type="sensebox_button" /> */}
                     <Block type="sensebox_sensor_truebner_smt50" />
-                    <Block type="sensebox_sensor_watertemperature" />
+                    {/* <Block type="sensebox_sensor_watertemperature" /> */}
                     {/* <Block type="sensebox_windspeed" /> */}
-                    <Block type="sensebox_soundsensor_dfrobot" />
+                    {/* <Block type="sensebox_soundsensor_dfrobot" /> */}
                 </Category >
-                <Category name="WIFI" colour={getColour().sensebox}>
-                    <Block type="sensebox_wifi" />
-                    <Block type="sensebox_startap" />
-                </Category>
-                <Category name="SD" colour={getColour().sensebox}>
-                    <Block type="sensebox_sd_create_file" />
-                    <Block type="sensebox_sd_open_file">
-                        <Value name="SD">
-                            <Block type="sensebox_sd_write_file"></Block>
-                        </Value>
-                    </Block>
-                    <Block type="sensebox_sd_write_file" />
-                </Category>
                 <Category name="LED" colour={getColour().sensebox}>
                     <Block type="sensebox_rgb_led"></Block>
                     <Block type="sensebox_led" />
@@ -247,88 +234,6 @@ class Toolbox extends React.Component {
                         </Value>
                     </Block>
                 </Category>
-                <Category name="Telegram" colour={getColour().sensebox}>
-                    <Block type="sensebox_telegram" />
-                    <Block type="sensebox_telegram_do" />
-                    <Block type="sensebox_telegram_do_on_message" />
-                    <Block type="sensebox_telegram_send" />
-                </Category>
-                <Category name="openSenseMap" colour={getColour().sensebox}>
-                    <Block type="sensebox_interval_timer">
-                        <Value name="DO">
-                            <Block type="sensebox_osem_connection" />
-                        </Value>
-                    </Block>
-                    <Block type="sensebox_send_to_osem" />
-                </Category>
-                <Category id="catSenseBoxOutput_LoRa" name="  LoRa" colour={getColour().sensebox}>
-                    <Category id="catSenseBoxOutput_LoRa_activation" name="    Aktivierung" colour={getColour().sensebox}>
-                        <Block type="sensebox_lora_initialize_otaa" />
-                        <Block type="sensebox_lora_initialize_abp" />
-                    </Category>
-                    <Category id="catSenseBoxOutput_LoRa_loramessage" name="    Lora Message" colour={getColour().sensebox}>
-                        <Block type="sensebox_lora_message_send" />
-                        <Block type="sensebox_send_lora_sensor_value" />
-                    </Category>
-                    <Category id="catSenseBoxOutput_Map" name="    TTN Mapper" colour={getColour().sensebox}>
-                        <Block type="sensebox_lora_ttn_mapper">
-                            <Value name="Latitude">
-                                <Block type="sensebox_gps">
-                                    <Field name="dropdown">latitude</Field>
-                                </Block>
-                            </Value>
-                            <Value name="Longitude">
-                                <Block type="sensebox_gps">
-                                    <Field name="dropdown">longitude</Field>
-                                </Block>
-                            </Value>
-                            <Value name="Altitude">
-                                <Block type="sensebox_gps">
-                                    <Field name="dropdown">altitude</Field>
-                                </Block>
-                            </Value>
-                            <Value name="pDOP">
-                                <Block type="sensebox_gps">
-                                    <Field name="dropdown">pDOP</Field>
-                                </Block>
-                            </Value>
-                            <Value name="Fix Type">
-                                <Block type="sensebox_gps">
-                                    <Field name="dropdown">fixType</Field>
-                                </Block>
-                            </Value>
-                        </Block>
-                    </Category>
-                    <Category id="catSenseBoxOutput_LoRa_cayenne" name="    Cayenne LPP" colour={getColour().sensebox}>
-                        <Block type="sensebox_lora_cayenne_send" />
-                        <Block type="sensebox_lora_cayenne_temperature" />
-                        <Block type="sensebox_lora_cayenne_humidity" />
-                        <Block type="sensebox_lora_cayenne_pressure" />
-                        <Block type="sensebox_lora_cayenne_luminosity" />
-                        <Block type="sensebox_lora_cayenne_sensor" />
-                        <Block type="sensebox_lora_cayenne_accelerometer" />
-                        <Block type="sensebox_lora_cayenne_gps" />
-                    </Category>
-                </Category>
-                <Category id="webserver" name="Webserver" colour={getColour().webserver}>
-                    <Block type="sensebox_initialize_http_server"></Block>
-                    <Block type="sensebox_http_on_client_connect"></Block>
-                    <Block type="sensebox_ip_address"></Block>
-                    <Block type="sensebox_http_method"></Block>
-                    <Block type="sensebox_http_uri"></Block>
-                    <Block type="sensebox_http_protocol_version"></Block>
-                    <Block type="sensebox_http_user_agent"></Block>
-                    <Block type="sensebox_generate_http_succesful_response"></Block>
-                    <Block type="sensebox_generate_http_not_found_response"></Block>
-                    <Block type="sensebox_generate_html_doc"></Block>
-                    <Block type="sensebox_general_html_tag"></Block>
-                    <Block type="sensebox_web_readHTML"></Block>
-                </Category>
-                <Category id="mqtt" name="MQTT" colour={getColour().mqtt}>
-                    <Block type="sensebox_mqtt_setup" />
-                    <Block type="sensebox_mqtt_publish" />
-                    {/* <Block type="sensebox_mqtt_subscribe" /> */}
-                </Category>
                 <Category name={Blockly.Msg.toolbox_logic} colour={getColour().logic}>
                     <Block type="controls_if" />
                     <Block type="controls_ifelse" />
@@ -440,16 +345,6 @@ class Toolbox extends React.Component {
                     <Block type="math_random_float"></Block>
                     <Block type="base_map"></Block>
                 </Category>
-                <Category id="audio" name="Audio" colour={getColour().audio}>
-                    <Block type="io_tone">
-                        <Value name="FREQUENCY">
-                            <Shadow type="math_number">
-                                <Field name="NUM">220</Field>
-                            </Shadow>
-                        </Value>
-                    </Block>
-                    <Block type="io_notone"></Block>
-                </Category>
                 <Category name={Blockly.Msg.toolbox_variables} colour={getColour().variables} custom="CREATE_TYPED_VARIABLE"></Category>
                 <Category name="Arrays" colour={getColour().arrays} >
                     <Block type="lists_create_empty" />
@@ -457,8 +352,7 @@ class Toolbox extends React.Component {
                     <Block type="lists_length" />
                 </Category>
                 <Category name={Blockly.Msg.toolbox_functions} colour={getColour().procedures} custom="PROCEDURE"></Category>
-                <sep></sep>
-                <Category name={Blockly.Msg.toolbox_io} colour={getColour().io}>
+                {/* <Category name={Blockly.Msg.toolbox_io} colour={getColour().io}>
                     <Block type="io_digitalwrite"></Block>
                     <Block type="io_digitalread"></Block>
                     <Block type="io_builtin_led"></Block>
@@ -480,7 +374,7 @@ class Toolbox extends React.Component {
                             </Shadow>
                         </Value>
                     </Block>
-                </Category>
+                </Category> */}
                 {/* this block is the initial block of the workspace; not necessary
                     to display, because it can only be used once anyway
                 <Category name="Procedures" colour={getColour().procedures}>

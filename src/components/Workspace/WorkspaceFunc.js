@@ -9,7 +9,6 @@ import SolutionCheck from '../Tutorial/SolutionCheck';
 import DownloadProject from './DownloadProject';
 import OpenProject from './OpenProject';
 import Screenshot from './Screenshot';
-import ShareProject from './ShareProject';
 import ResetWorkspace from './ResetWorkspace';
 import DeleteProject from './DeleteProject';
 import CopyCode from './CopyCode';
@@ -62,15 +61,6 @@ class WorkspaceFunc extends Component {
 
         {!this.props.assessment && !this.props.multiple ?
           <Screenshot style={{ marginRight: '5px' }} />
-          : null}
-
-        {this.props.projectType !== 'gallery' && !this.props.assessment ?
-          <ShareProject
-            style={{ marginRight: '5px' }}
-            multiple={this.props.multiple}
-            project={this.props.project}
-            projectType={this.props.projectType}
-          />
           : null}
 
         {!this.props.multiple ?

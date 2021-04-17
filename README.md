@@ -1,8 +1,6 @@
  <img src="/src/components/sensebox_logo.svg?raw=true" height="128" alt="senseBox Logo"/>
 
-# React Ardublockly
-
-This repository contains the source code and documentation of [sensebox-ardublockly](https://sensebox-ardublockly.netlify.app/).
+# Remote sensebox
 
 This project was created with [Create React App](https://github.com/facebook/create-react-app) and represents the continuation or improvement of [blockly.sensebox.de](https://blockly.sensebox.de/ardublockly/?lang=de&board=sensebox-mcu).
 

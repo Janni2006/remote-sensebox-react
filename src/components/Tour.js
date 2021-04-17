@@ -23,10 +23,6 @@ export const home = () => {
             content: `${Blockly.Msg.hometour_compileBlocks}`,
         },
         {
-            selector: ".shareBlocks",
-            content: `${Blockly.Msg.hometour_shareBlocks}`,
-        },
-        {
             selector: ".showCode",
             content: `${Blockly.Msg.hometour_showCode}`,
         },

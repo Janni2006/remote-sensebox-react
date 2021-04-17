@@ -21,7 +21,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { faCode } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import TooltipViewer from './TooltipViewer';
 
 
 const styles = (theme) => ({
@@ -121,7 +120,7 @@ class Home extends Component {
           {this.state.codeOn ?
             <Grid item xs={12} md={4}>
               <CodeViewer />
-              <TooltipViewer />
+              {/* <TooltipViewer /> */}
             </Grid>
             : null}
         </Grid>
