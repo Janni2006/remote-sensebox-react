@@ -8,7 +8,7 @@ function Queue() {
 
     React.useEffect(() => {
         const timer = setInterval(async function () {
-            const response = await fetch(window.location.origin + "/api/queue", {
+            const response = await fetch("${process.env.BACKEND_URL}/api/queue", {
                 method: "GET",
                 headers: {
                     deviceID: localStorage.getItem("deviceID").toString(),
