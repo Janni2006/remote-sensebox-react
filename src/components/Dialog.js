@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 
 import Button from '@material-ui/core/Button';
@@ -9,30 +8,30 @@ import MaterialUIDialog from '@material-ui/core/Dialog';
 
 class Dialog extends Component {
 
-    render() {
-        return (
-            <MaterialUIDialog
-                onClose={this.props.onClose}
-                open={this.props.open}
-                style={this.props.style}
-                maxWidth={this.props.maxWidth}
-                fullWidth={this.props.fullWidth}
-            >
-                <DialogTitle>{this.props.title}</DialogTitle>
-                <DialogContent dividers>
-                    {this.props.content}
-                    {this.props.children}
-                </DialogContent>
-                <DialogActions>
-                    {this.props.actions ? this.props.actions :
-                        <Button onClick={this.props.onClick} color="primary">
-                            {this.props.button}
-                        </Button>
-                    }
-                </DialogActions>
-            </MaterialUIDialog>
-        );
-    };
+  render() {
+    return (
+      <MaterialUIDialog
+        onClose={this.props.onClose}
+        open={this.props.open}
+        style={this.props.style}
+        maxWidth={this.props.maxWidth}
+        fullWidth={this.props.fullWidth}
+      >
+        <DialogTitle>{this.props.title}</DialogTitle>
+        <DialogContent dividers>
+          {this.props.content}
+          {this.props.children}
+        </DialogContent>
+        <DialogActions>
+          {this.props.actions ? this.props.actions :
+            <Button onClick={this.props.onClick} color="primary">
+              {this.props.button}
+            </Button>
+          }
+        </DialogActions>
+      </MaterialUIDialog>
+    );
+  };
 }
 
 
