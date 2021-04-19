@@ -6,6 +6,7 @@ import { MATH } from './en/math';
 import { DISPLAY } from './en/sensebox-display';
 import { LED } from './en/sensebox-led';
 import { SENSORS } from './en/sensebox-sensors';
+import { SERIAL } from './en/serial';
 import { TEXT } from './en/text';
 import { TIME } from './en/time';
 import { TOURS } from './en/tours';
@@ -22,6 +23,7 @@ export const En = {
     ...DISPLAY,
     ...LED,
     ...SENSORS,
+    ...SERIAL,
     ...TEXT,
     ...TIME,
     ...TOURS,

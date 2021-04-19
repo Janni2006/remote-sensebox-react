@@ -79,6 +79,8 @@ function translateType(type) {
             return 'void';
         case 'boolean':
             return 'boolean';
+        case `char`:
+            return 'char';
         case 'float':
             return 'float'
         default:

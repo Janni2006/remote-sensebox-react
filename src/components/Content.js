@@ -39,7 +39,10 @@ class Content extends Component {
     return (
       <div className="wrapper">
         <Navbar />
-        <Routes />
+        <div style={{ marginTop: '70px' }}>
+          <Routes />
+        </div>
+
         <Cookies />
         <Footer />
       </div>

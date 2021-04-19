@@ -13,5 +13,6 @@ import './procedures';
 import './time';
 import './variables';
 import './lists';
+import './serial';
 
 

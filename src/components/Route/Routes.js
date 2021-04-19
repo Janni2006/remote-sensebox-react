@@ -8,6 +8,7 @@ import { Switch, withRouter } from 'react-router-dom';
 import PublicRoute from './PublicRoute';
 
 import Home from '../Home';
+import BlocklyEditor from '../Editor';
 import NotFound from '../NotFound';
 import Settings from '../Settings/Settings';
 import Impressum from '../Impressum';
@@ -25,8 +26,11 @@ class Routes extends Component {
     return (
       <div style={{ margin: '0 22px' }}>
         <Switch>
-          <PublicRoute path="/blockly" exact>
+          <PublicRoute path="/" exact>
             <Home />
+          </PublicRoute>
+          <PublicRoute path="/blockly" exact>
+            <BlocklyEditor />
           </PublicRoute>
           {/* settings */}
           <PublicRoute path="/settings" exact>
@@ -56,7 +60,7 @@ class Routes extends Component {
   }
 }
 
-Home.propTypes = {
+BlocklyEditor.propTypes = {
   visitPage: PropTypes.func.isRequired
 };
 

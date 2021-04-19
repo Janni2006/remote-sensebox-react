@@ -3,7 +3,7 @@ import * as Blockly from 'blockly/core';
 Blockly.Arduino.sensebox_led = function () {
     var dropdown_pin = this.getFieldValue('PIN');
     var dropdown_stat = this.getFieldValue('STAT');
-    Blockly.Arduino.setupCode_['setup_led_' + dropdown_pin] = 'pinMode(' + dropdown_pin + ', OUTPUT);';
+    Blockly.Arduino.setupCode_['setup_led_' + dropdown_pin] = 'pinMode(' + dropdown_pin + ', OUTPUT);\n';
     var code = 'digitalWrite(' + dropdown_pin + ',' + dropdown_stat + ');\n'
     return code;
 };
@@ -12,7 +12,7 @@ Blockly.Arduino.sensebox_rgb_led = function () {
     var dropdown_pin = this.getFieldValue('PIN');
     var color = Blockly.Arduino.valueToCode(this, 'COLOR', Blockly.Arduino.ORDER_ATOMIC) || '0'
     Blockly.Arduino.libraries_['define_rgb_led' + dropdown_pin] = '#include <Adafruit_NeoPixel.h>\n Adafruit_NeoPixel rgb_led_' + dropdown_pin + ' = Adafruit_NeoPixel(1,' + dropdown_pin + ',NEO_RGB + NEO_KHZ800);\n';
-    Blockly.Arduino.setupCode_['setup_rgb_led' + dropdown_pin] = 'rgb_led_' + dropdown_pin + '.begin();';
+    Blockly.Arduino.setupCode_['setup_rgb_led' + dropdown_pin] = 'rgb_led_' + dropdown_pin + '.begin();\n';
     var code = 'rgb_led_' + dropdown_pin + '.setPixelColor(0,rgb_led_' + dropdown_pin + '.Color(' + color + '));\n';
     code += 'rgb_led_' + dropdown_pin + '.show();';
     return code;

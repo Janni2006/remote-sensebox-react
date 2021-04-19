@@ -22,7 +22,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Tour from 'reactour'
 import { home, assessment } from './Tour';
-import { faBars, faChevronLeft, faLayerGroup, faQuestionCircle, faCog } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faChevronLeft, faLayerGroup, faQuestionCircle, faCog, faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as Blockly from 'blockly'
 import Tooltip from '@material-ui/core/Tooltip';
@@ -67,12 +67,12 @@ class Navbar extends Component {
   }
 
   render() {
-    var isBlockly = /^\/(\/.*$|$)/g.test(this.props.location.pathname);
+    var isBlockly = /^\/blockly(\/.*$|$)/g.test(this.props.location.pathname);
     return (
       <div>
         <AppBar
-          position="relative"
-          style={{ height: '50px', marginBottom: this.props.projectIsLoading ? '0px' : '30px', boxShadow: this.props.projectIsLoading ? 'none' : '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)' }}
+          position="fixed"
+          style={{ height: '50px', marginBottom: this.props.projectIsLoading ? '0px' : '30px', boxShadow: this.props.projectIsLoading ? 'none' : '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)', top: '0px' }}
           classes={{ root: this.props.classes.appBarColor }}
         >
           <Toolbar style={{ height: '50px', minHeight: '50px', padding: 0, color: 'white' }}>
@@ -130,7 +130,7 @@ class Navbar extends Component {
             </div>
           </div>
           <List>
-            {[{ text: "Blockly.Msg.navbar_projects", icon: faLayerGroup, link: "/" }].map((item, index) => {
+            {[{ text: "Home", icon: faHome, link: "/" }, { text: "Blockly", icon: faLayerGroup, link: "/blockly" }].map((item, index) => {
               if (item.restriction || Object.keys(item).filter(attribute => attribute === 'restriction').length === 0) {
                 return (
                   <Link to={item.link} key={index} style={{ textDecoration: 'none', color: 'inherit' }}>

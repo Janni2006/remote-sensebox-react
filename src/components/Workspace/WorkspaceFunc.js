@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import WorkspaceName from './WorkspaceName';
 import SaveProject from './SaveProject';
-import Compile from './Compile';
+// import Compile from './Compile';
+import AddToQueue from './AddToQueue';
 import SolutionCheck from '../Tutorial/SolutionCheck';
 import DownloadProject from './DownloadProject';
 import OpenProject from './OpenProject';
@@ -31,7 +32,7 @@ class WorkspaceFunc extends Component {
         {this.props.assessment ?
           <SolutionCheck />
           : !this.props.multiple ?
-            <Compile iconButton />
+            <AddToQueue iconButton />
             : null}
 
         {!this.props.multiple ?
