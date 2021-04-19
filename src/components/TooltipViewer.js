@@ -17,7 +17,7 @@ class TooltipViewer extends Component {
   render() {
 
     return (
-      <Card className="tooltipViewer" style={{ height: '100%', margin: '1vH 0 0 0', maxHeight: '19vH', overflow: 'auto' }} ref={this.myDiv}>
+      <Card className="tooltipViewer" style={{ height: '100%', margin: '1vH 0 0 0', maxHeight: 'calc(19vH - 30px)', overflow: 'auto' }} ref={this.myDiv}>
         <CardContent>
           <Typography variant="h5" component="h2">
             {Blockly.Msg.tooltip_viewer}

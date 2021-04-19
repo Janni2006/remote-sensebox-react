@@ -90,15 +90,6 @@ class AddToQueue extends Component {
             });
     }
 
-    download = () => {
-        const id = this.state.id;
-        const filename = detectWhitespacesAndReturnReadableResult(this.state.name);
-        this.toggleDialog();
-        this.props.workspaceName(this.state.name);
-        window.open(`${process.env.REACT_APP_COMPILER_URL} / download ? id = ${id} & board=${process.env.REACT_APP_BOARD} & filename=${filename}`, '_self');
-        this.setState({ progress: false });
-    }
-
     toggleDialog = () => {
         this.setState({ open: !this.state, progress: false });
     }
@@ -110,7 +101,7 @@ class AddToQueue extends Component {
     }
 
     setFileName = (e) => {
-        this.setState({ name: e.target.value });
+        this.setState({ name: detectWhitespacesAndReturnReadableResult(e.target.value) });
     }
 
     render() {

@@ -18,7 +18,7 @@ class Dialog extends Component {
         fullWidth={this.props.fullWidth}
       >
         <DialogTitle>{this.props.title}</DialogTitle>
-        <DialogContent dividers>
+        <DialogContent dividers style={{ overflowX: "hidden" }}>
           {this.props.content}
           {this.props.children}
         </DialogContent>

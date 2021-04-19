@@ -112,8 +112,8 @@ class BlocklyEditor extends Component {
             <TrashcanButtons />
             <div className='blocklyWindow'>
               {this.props.project ?
-                < BlocklyWindow blocklyCSS={{ height: '80vH' }} initialXml={this.props.project.xml} />
-                : < BlocklyWindow blocklyCSS={{ height: '80vH' }} />
+                < BlocklyWindow blocklyCSS={{ height: 'calc(80vH - 40px)' }} initialXml={this.props.project.xml} />
+                : < BlocklyWindow blocklyCSS={{ height: 'calc(80vH - 40px)' }} />
               }
             </div>
           </Grid>
