@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 
 import Queue from './Home/Queue';
@@ -84,7 +85,7 @@ class Home extends Component {
         return (
             <div>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={4} style={{ position: 'relative' }}>
+                    <Grid item xs={12} md={3} style={{ position: 'relative' }}>
                         <Card style={{ height: '60vh', margin: '1vH 0 0 0', overflow: 'hidden' }} ref={this.myDiv}>
                             <Accordion
                                 square={true}
@@ -117,14 +118,17 @@ class Home extends Component {
                         </Card>
 
                         <Card style={{ height: '20vh', margin: '1vH 0 0 0', overflow: 'hidden' }}>
+                            <Typography>
+                                <h2 style={{ margin: "0", padding: "0 10px", fontSize: "3vh" }} align="center" >Erstelle deine eigenen Sketches!</h2>
+                            </Typography>
                             <Grid
                                 container
                                 direction="row"
                                 justify="space-evenly"
                                 alignItems="center"
-                                style={{ height: "20vh" }}
+                                style={{ height: "10vh" }}
                             >
-                                <Grid item xs={4} md={4}>
+                                <Grid item xs={2} md={2}>
                                     <Fab
                                         variant="extended"
                                         onClick={() => {
@@ -135,7 +139,7 @@ class Home extends Component {
                                             Upload
                                         </Fab>
                                 </Grid>
-                                <Grid item xs={4} md={4}>
+                                <Grid item xs={2} md={2}>
                                     <Link to={"/blockly"} style={{ textDecoration: 'none', color: 'inherit' }}>
                                         <Fab
                                             variant="extended"
@@ -149,7 +153,7 @@ class Home extends Component {
                             </Grid>
                         </Card>
                     </Grid>
-                    <Grid item xs={12} md={8}>
+                    <Grid item xs={12} md={9}>
                         <Card style={{ height: '81vh', margin: '1vH 0 0 0', overflow: 'hidden', padding: '0px' }}>
                         </Card>
                     </Grid>

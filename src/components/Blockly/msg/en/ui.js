@@ -13,6 +13,7 @@ export const UI = {
     toolbox_time: "Time",
     toolbox_functions: "Functions",
     toolbox_variables: "Variables",
+    toolbox_serial: "Serial Connection",
 
     /**
      * Tooltips

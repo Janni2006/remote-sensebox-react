@@ -33,6 +33,9 @@ class App extends Component {
   componentDidMount() {
     store.dispatch(loadUser());
     if (localStorage.getItem("deviceID") === null) {
+      localStorage.setItem("deviceID", "empty");
+    }
+    if (localStorage.getItem("deviceID") === "empty") {
       fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/device/register`)
         .then((response) => response.json())
         .then((data) => {

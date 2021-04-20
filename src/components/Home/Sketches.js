@@ -27,8 +27,9 @@ function Sketches() {
             clearInterval(timer);
         };
     }, []);
+
     return (
-        <div style={{ height: "calc(70vh - 100px)", width: "100%" }}>
+        <div style={{ height: "calc(60vh - 100px)", width: "100%", overflow: "auto" }}>
             {loading ?
                 <div
                     style={{
@@ -88,10 +89,12 @@ class SketchObject extends Component {
                                                 margin: "0px",
                                                 marginTop: "2.5px",
                                                 marginBottom: "2.5px",
-                                                border: "1.5px solid green",
+                                                border: "1.5px solid rgb(47, 107, 43)",
                                                 width: "48px",
                                                 padding: "1.5px 4px 1.5px 4px",
-                                                borderRadius: "10px"
+                                                borderRadius: "10px",
+                                                backgroundColor: "rgba(78, 175, 71, .2)",
+                                                color: "rgb(47, 107, 43)"
                                             }}
                                         >
                                             Finished
@@ -106,10 +109,12 @@ class SketchObject extends Component {
                                                 margin: "0px",
                                                 marginTop: "2.5px",
                                                 marginBottom: "2.5px",
-                                                border: "1.5px solid blue",
+                                                border: "1.5px solid rgb(153, 91, 165)",
                                                 width: "40px",
                                                 padding: "1.5px 4px 1.5px 4px",
                                                 borderRadius: "10px",
+                                                backgroundColor: "rgba(187,112,201, .2)",
+                                                color: "rgb(153, 91, 165)"
                                             }}
                                         >
                                             Blockly

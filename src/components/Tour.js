@@ -1,6 +1,6 @@
 import * as Blockly from 'blockly/core';
 
-export const home = () => {
+export const blockly = () => {
     return [
         {
             selector: ".wrapper",
@@ -29,6 +29,15 @@ export const home = () => {
         {
             selector: ".MenuButton",
             content: `${Blockly.Msg.hometour_menuButton}`,
+        }
+    ];
+};
+
+export const home = () => {
+    return [
+        {
+            selector: '.test',
+            content: "Content"
         }
     ];
 };

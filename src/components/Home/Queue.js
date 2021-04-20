@@ -30,7 +30,7 @@ function Queue() {
         };
     }, []);
     return (
-        <div style={{ height: "calc(70vh - 100px)", width: "100%" }}>
+        <div style={{ height: "calc(60vh - 100px)", width: "100%", overflowY: "auto" }}>
             {loading ?
                 <div
                     style={{
@@ -42,7 +42,6 @@ function Queue() {
                     <ReactLoading type={"bubbles"} color={"#4eaf46"} height={50} width={'100%'} />
                 </div> :
                 <List>
-                    <p>{queue.length}</p>
                     {queue && queue.map(queue_item => {
                         return < QueueObject
                             key={queue_item.id}
