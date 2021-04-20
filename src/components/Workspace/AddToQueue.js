@@ -68,26 +68,29 @@ class AddToQueue extends Component {
 
 
     upload = () => {
-        this.setState({ progress: true });
-        this.createFileName();
-        const data = {
-            "sketch_name": this.state.name,
-            "sketch": this.props.arduino
-        };
-        console.log(process.env)
-        fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json', 'deviceID': 'hallo' },
-            body: JSON.stringify(data)
-        })
-            .then(data => {
-                console.log(data);
-                this.setState({ progress: false });
+        if (this.state.name) {
+            this.setState({ progress: true });
+            const data = {
+                "sketch_name": this.state.name,
+                "sketch": this.props.arduino,
+                "sketch_xml": this.props.xml
+            };
+            fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                body: JSON.stringify(data)
             })
-            .catch(err => {
-                console.log(err);
-                this.setState({ progress: false, file: false, open: true, title: Blockly.Msg.compiledialog_headline, content: Blockly.Msg.compiledialog_text });
-            });
+                .then(data => {
+                    this.setState({ progress: false });
+                    window.location.href = "/";
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.setState({ progress: false, file: false, open: true, title: Blockly.Msg.compiledialog_headline, content: Blockly.Msg.compiledialog_text });
+                });
+        } else {
+            this.createFileName();
+        }
     }
 
     toggleDialog = () => {
@@ -106,7 +109,7 @@ class AddToQueue extends Component {
 
     render() {
         return (
-            <div style={{}}>
+            <div>
                 {this.props.iconButton ?
                     <Tooltip title={Blockly.Msg.tooltip_compile_code} arrow style={{ marginRight: '5px' }}>
                         <IconButton
@@ -141,7 +144,7 @@ class AddToQueue extends Component {
                     {this.state.file ?
                         <div style={{ marginTop: '10px' }}>
                             <TextField autoFocus placeholder='Dateiname' value={this.state.name} onChange={this.setFileName} style={{ marginRight: '10px' }} />
-                            <Button disabled={!this.state.name} variant='contained' color='primary' onClick={() => this.download()}>Eingabe</Button>
+                            <Button disabled={!this.state.name} variant='contained' color='primary' onClick={() => this.upload()}>Eingabe</Button>
                         </div>
                         : null}
                 </Dialog>
@@ -157,6 +160,7 @@ AddToQueue.propTypes = {
 };
 
 const mapStateToProps = state => ({
+    xml: state.workspace.code.xml,
     arduino: state.workspace.code.arduino,
     name: state.workspace.name
 });
