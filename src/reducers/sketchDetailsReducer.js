@@ -6,7 +6,9 @@ const initialState = {
         xml: ""
     },
     name: "",
-    show: false
+    id: "",
+    blockly: false,
+    show: false,
 };
 
 export default function foo(state = initialState, action) {
@@ -18,7 +20,9 @@ export default function foo(state = initialState, action) {
                     sketch: action.payload.sketch,
                     xml: action.payload.xml
                 },
+                id: action.payload.code,
                 name: action.payload.title,
+                blockly: action.payload.blockly,
                 show: true
             }
         case CLOSE_DETAILS:
@@ -28,7 +32,9 @@ export default function foo(state = initialState, action) {
                     sketch: "",
                     xml: ""
                 },
+                id: "",
                 name: "",
+                blockly: false,
                 show: false
             }
         default:

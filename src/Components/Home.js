@@ -104,7 +104,7 @@ class Home extends Component {
             <div>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={3} style={{ position: 'relative' }}>
-                        <Card style={{ height: '60vh', margin: '1vH 0 0 0', overflow: 'hidden' }} ref={this.myDiv}>
+                        <Card style={{ height: '55vh', margin: '1vH 0 0 0', overflow: 'hidden' }} ref={this.myDiv}>
                             <Accordion
                                 square={true}
                                 style={{ margin: 0 }}
@@ -135,18 +135,18 @@ class Home extends Component {
                             </Accordion>
                         </Card>
 
-                        <Card style={{ height: '20vh', margin: '1vH 0 0 0', overflow: 'hidden' }}>
+                        <Card style={{ height: '25vh', margin: '1vH 0 0 0', overflow: 'hidden' }}>
                             <Typography>
-                                <h2 style={{ margin: "0", padding: "0 10px", fontSize: "2.5vh" }} align="center" >Erstelle deine eigenen Sketches!</h2>
+                                <p style={{ margin: "0", padding: "0 10px", fontSize: "2.5vh" }} align="center" >Erstelle deine eigenen Sketches!</p>
                             </Typography>
                             <Grid
                                 container
                                 direction="row"
                                 justify="space-evenly"
-                                alignItems="center"
-                                style={{ height: "10vh" }}
+                                style={{ height: "15vh" }}
+                                spacing={7}
                             >
-                                <Grid item xs={6} md={6} style={{ position: 'relative' }}>
+                                <Grid item md={12} lg={6} style={{ position: 'relative' }}>
                                     <div
                                         style={{
                                             position: 'absolute', left: '50%', top: '50%',
@@ -164,7 +164,7 @@ class Home extends Component {
                                     </Fab>
                                     </div>
                                 </Grid>
-                                <Grid item xs={6} md={6} style={{ position: 'relative' }}>
+                                <Grid item md={12} lg={6} style={{ position: 'relative' }}>
                                     <div
                                         style={{
                                             position: 'absolute', left: '50%', top: '50%',
@@ -195,10 +195,10 @@ class Home extends Component {
                                     width="100%"
                                     height="100%"
                                     scrolling="no"
-                                    frameborder="0"
+                                    frameBorder="0"
                                     webkitallowfullscreen="true"
                                     mozallowfullscreen="true"
-                                    allowfullscreen="true"
+                                    allowFullScreen="true"
                                     title="stream"
                                 ></iframe>
                             }

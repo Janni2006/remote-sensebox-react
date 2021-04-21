@@ -46,7 +46,7 @@ function Sketches(props) {
                 <List>
                     {sketches && sketches.map(sketch_item => {
                         return < SketchObject
-                            key={sketch_item.id}
+                            key={sketch_item.code}
                             friendly_name={sketch_item.friendly_name}
                             blockly={sketch_item.blockly}
                             finished={sketch_item.finished}
