@@ -56,8 +56,8 @@ class Toolbox extends React.Component {
                     {/* <Block type="sensebox_soundsensor_dfrobot" /> */}
                 </Category >
                 <Category name="LED" colour={getColour().sensebox}>
-                    <Block type="sensebox_rgb_led"></Block>
-                    <Block type="sensebox_led" />
+                    {/* <Block type="sensebox_rgb_led"></Block> */}
+                    {/* <Block type="sensebox_led" /> */}
                     <Block type="sensebox_ws2818_led_init">
                         <Value name="NUMBER">
                             <Block type="math_number">

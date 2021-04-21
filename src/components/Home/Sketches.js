@@ -4,10 +4,12 @@ import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import { Card } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import ReactLoading from 'react-loading';
 
-function Sketches() {
+function Sketches(props) {
     const [sketches, setSketches] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
 
@@ -48,6 +50,8 @@ function Sketches() {
                             friendly_name={sketch_item.friendly_name}
                             blockly={sketch_item.blockly}
                             finished={sketch_item.finished}
+                            code={sketch_item.code}
+                            open={props.openDetails}
                         />
                     })}
                     {sketches && sketches.length === 0 ? <ListItem>Du hast noch kein Sketch hochgeladen</ListItem> : null}
@@ -59,6 +63,9 @@ function Sketches() {
 }
 
 class SketchObject extends Component {
+    openDetails = () => {
+        this.props.open(this.props.code);
+    }
     render() {
         return (
             <ListItem >
@@ -74,59 +81,51 @@ class SketchObject extends Component {
                             {this.props.friendly_name}
                         </Grid>
                         <Grid item xs={4} md={4}>
-                            <Grid
-                                container
-                                direction="column"
-                                justify="center"
-                                alignItems="center"
-                            >
-                                {this.props.finished ?
-                                    <Grid item xs={4} md={4}>
-                                        <p
-                                            style={{
-                                                fontSize: "12px",
-                                                fontWeight: "bold",
-                                                margin: "0px",
-                                                marginTop: "2.5px",
-                                                marginBottom: "2.5px",
-                                                border: "1.5px solid rgb(47, 107, 43)",
-                                                width: "48px",
-                                                padding: "1.5px 4px 1.5px 4px",
-                                                borderRadius: "10px",
-                                                backgroundColor: "rgba(78, 175, 71, .2)",
-                                                color: "rgb(47, 107, 43)"
-                                            }}
-                                        >
-                                            Finished
-                                        </p>
-                                    </Grid> : null}
-                                {this.props.blockly ?
-                                    <Grid item xs={4} md={4}>
-                                        <p
-                                            style={{
-                                                fontSize: "12px",
-                                                fontWeight: "bold",
-                                                margin: "0px",
-                                                marginTop: "2.5px",
-                                                marginBottom: "2.5px",
-                                                border: "1.5px solid rgb(153, 91, 165)",
-                                                width: "40px",
-                                                padding: "1.5px 4px 1.5px 4px",
-                                                borderRadius: "10px",
-                                                backgroundColor: "rgba(187,112,201, .2)",
-                                                color: "rgb(153, 91, 165)"
-                                            }}
-                                        >
-                                            Blockly
-                                        </p>
-                                    </Grid> : null}
-                            </Grid>
+                            {this.props.finished ?
+                                <p
+                                    style={{
+                                        fontSize: "12px",
+                                        fontWeight: "bold",
+                                        margin: "0px",
+                                        marginTop: "2.5px",
+                                        marginBottom: "2.5px",
+                                        border: "1.5px solid rgb(47, 107, 43)",
+                                        width: "48px",
+                                        padding: "1.5px 4px 1.5px 4px",
+                                        borderRadius: "10px",
+                                        backgroundColor: "rgba(78, 175, 71, .2)",
+                                        color: "rgb(47, 107, 43)"
+                                    }}
+                                >
+                                    Finished
+                                        </p> : null}
+                            {this.props.blockly ?
+                                <p
+                                    style={{
+                                        fontSize: "12px",
+                                        fontWeight: "bold",
+                                        margin: "0px",
+                                        marginTop: "2.5px",
+                                        marginBottom: "2.5px",
+                                        border: "1.5px solid rgb(153, 91, 165)",
+                                        width: "40px",
+                                        padding: "1.5px 4px 1.5px 4px",
+                                        borderRadius: "10px",
+                                        backgroundColor: "rgba(187,112,201, .2)",
+                                        color: "rgb(153, 91, 165)"
+                                    }}
+                                >
+                                    Blockly
+                                        </p> : null}
                         </Grid>
                         <Grid item xs={2} md={2}>
+                            <IconButton onClick={this.openDetails} >
+                                <ArrowForwardIosIcon />
+                            </IconButton>
                         </Grid>
                     </Grid>
                 </Card>
-            </ListItem>
+            </ListItem >
 
         );
     }

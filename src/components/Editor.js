@@ -11,7 +11,6 @@ import WorkspaceFunc from './Workspace/WorkspaceFunc';
 import BlocklyWindow from './Blockly/BlocklyWindow';
 import CodeViewer from './CodeViewer';
 import TrashcanButtons from './Workspace/TrashcanButtons';
-import HintTutorialExists from './Tutorial/HintTutorialExists';
 import Snackbar from './Snackbar';
 
 import Grid from '@material-ui/core/Grid';
@@ -70,6 +69,7 @@ class BlocklyEditor extends Component {
     scrollbars etc.) This should be called when something changes that requires
     recalculating dimensions and positions of the trash, zoom, toolbox, etc.
     (e.g. window resize). */
+    console.log(this.props.project)
     const workspace = Blockly.getMainWorkspace();
     Blockly.svgResize(workspace);
   }
@@ -96,7 +96,8 @@ class BlocklyEditor extends Component {
           : null
         }
         <div className='workspaceFunc' style={{ float: 'right', height: '40px', marginBottom: '20px' }}>
-          <WorkspaceFunc project={this.props.project} projectType={this.props.projectType} />
+          {/* <WorkspaceFunc project={this.props.project} projectType={this.props.projectType} /> */}
+          <WorkspaceFunc />
         </div>
         <Grid container spacing={2}>
           <Grid item xs={12} md={this.state.codeOn ? 8 : 12} style={{ position: 'relative' }}>
@@ -124,7 +125,6 @@ class BlocklyEditor extends Component {
             </Grid>
             : null}
         </Grid>
-        <HintTutorialExists />
         <Snackbar
           open={this.state.snackbar}
           message={this.state.message}

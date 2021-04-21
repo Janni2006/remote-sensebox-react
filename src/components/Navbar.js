@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout } from '../actions/authActions';
 
 import senseboxLogo from './sensebox_logo.svg';
 
@@ -19,7 +18,6 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Tour from 'reactour'
 import { blockly, assessment } from './Tour';
 import { faBars, faChevronLeft, faLayerGroup, faQuestionCircle, faCog, faHome } from "@fortawesome/free-solid-svg-icons";
@@ -72,7 +70,7 @@ class Navbar extends Component {
       <div>
         <AppBar
           position="fixed"
-          style={{ height: '50px', marginBottom: this.props.projectIsLoading ? '0px' : '30px', boxShadow: this.props.projectIsLoading ? 'none' : '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)', top: '0px' }}
+          style={{ height: '50px', marginBottom: '30px', boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)', top: '0px' }}
           classes={{ root: this.props.classes.appBarColor }}
         >
           <Toolbar style={{ height: '50px', minHeight: '50px', padding: 0, color: 'white' }}>
@@ -174,23 +172,15 @@ class Navbar extends Component {
             )}
           </List>
         </Drawer>
-        {this.props.projectIsLoading ?
-          <LinearProgress style={{ marginBottom: '30px', boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)' }} />
-          : null}
       </div>
     );
   }
 }
 
 Navbar.propTypes = {
-  projectIsLoading: PropTypes.bool.isRequired,
-  user: PropTypes.object,
   activeStep: PropTypes.number.isRequired
 };
 
-const mapStateToProps = state => ({
-  projectIsLoading: state.project.progress,
-  user: state.auth.user,
-});
+const mapStateToProps = state => ({});
 
-export default connect(mapStateToProps, { logout })(withStyles(styles, { withTheme: true })(withRouter(Navbar)));
+export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(withRouter(Navbar)));

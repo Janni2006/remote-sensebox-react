@@ -1,5 +1,5 @@
 {
-  "name": "remote-senseBox",
+  "name": "remote-sensebox",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,6 +10,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.11.2",
     "@monaco-editor/react": "^4.1.1",
     "@sentry/react": "^6.0.0",
     "@sentry/tracing": "^6.0.0",
@@ -40,7 +41,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "dev": "set \"REACT_APP_BLOCKLY_API=http://localhost:8080\" && set \"REACT_APP_MYBADGES_API=http://localhost:3001/api/v1\"&& npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

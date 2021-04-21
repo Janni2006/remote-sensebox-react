@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import WorkspaceName from './WorkspaceName';
-import SaveProject from './SaveProject';
-// import Compile from './Compile';
 import AddToQueue from './AddToQueue';
-import SolutionCheck from '../Tutorial/SolutionCheck';
 import DownloadProject from './DownloadProject';
 import OpenProject from './OpenProject';
 import Screenshot from './Screenshot';
 import ResetWorkspace from './ResetWorkspace';
-import DeleteProject from './DeleteProject';
 import CopyCode from './CopyCode';
 
 class WorkspaceFunc extends Component {
@@ -29,23 +24,12 @@ class WorkspaceFunc extends Component {
           />
           : null}
 
-        {this.props.assessment ?
-          <SolutionCheck />
-          : !this.props.multiple ?
-            <AddToQueue iconButton />
-            : null}
+        {!this.props.multiple ?
+          <AddToQueue iconButton />
+          : null}
 
         {!this.props.multiple ?
           <CopyCode iconButton />
-          : null}
-
-
-        {this.props.user && !this.props.multiple ?
-          <SaveProject
-            style={{ marginRight: '5px' }}
-            projectType={this.props.projectType}
-            project={this.props.project}
-          />
           : null}
 
         {!this.props.multiple ?
@@ -68,25 +52,9 @@ class WorkspaceFunc extends Component {
           <ResetWorkspace style={this.props.projectType === 'project' || this.props.projectType === 'gallery' ? { marginRight: '5px' } : null}
           />
           : null}
-
-        {!this.props.assessment && (this.props.projectType === 'project' || this.props.projectType === 'gallery') && this.props.user && this.props.user.email === this.props.project.creator ?
-          <DeleteProject
-            project={this.props.project}
-            projectType={this.props.projectType}
-          />
-          : null}
-
       </div>
     );
   };
 }
 
-WorkspaceFunc.propTypes = {
-  user: PropTypes.object
-};
-
-const mapStateToProps = state => ({
-  user: state.auth.user
-});
-
-export default connect(mapStateToProps, null)(WorkspaceFunc);
+export default connect(null)(WorkspaceFunc);

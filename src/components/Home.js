@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { openDetails } from '../actions/sketchDetailsActions';
 
 import Grid from '@material-ui/core/Grid';
 import { Card } from '@material-ui/core';
@@ -13,6 +16,8 @@ import Fab from '@material-ui/core/Fab';
 import Queue from './Home/Queue';
 import Sketches from './Home/Sketches';
 import UploadDialog from './Home/UploadDialog';
+import SketchDetail from './Home/SketchDetails';
+import Snackbar from './Snackbar';
 
 import { faPlus, faFileUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -63,6 +68,10 @@ class Home extends Component {
             expanded: true,
             componentHeight: null,
             componentWidth: null,
+            snackbar: false,
+            type: '',
+            key: '',
+            message: ''
         };
         this.myDiv = React.createRef();
     }
@@ -78,6 +87,15 @@ class Home extends Component {
 
     toggleDialog = () => {
         this.setState({ open: !this.state.open })
+    }
+
+    openSketchDetail = (code) => {
+        this.props.openDetails(code);
+        console.log(this.props.sketchDetail)
+    }
+
+    closeSketchDetail = () => {
+        this.setState({ sketchDetail: "" })
     }
 
     render() {
@@ -112,14 +130,14 @@ class Home extends Component {
                                     <div style={{ margin: 'auto 5px 2px 0px' }}>Eigene Sketches</div>
                                 </AccordionSummary>
                                 <AccordionDetails style={{ padding: 0, height: `calc(${this.state.componentHeight} - 50px - 50px)`, width: this.state.componentWidth, backgroundColor: 'white' }}>
-                                    <Sketches />
+                                    <Sketches openDetails={this.openSketchDetail} />
                                 </AccordionDetails>
                             </Accordion>
                         </Card>
 
                         <Card style={{ height: '20vh', margin: '1vH 0 0 0', overflow: 'hidden' }}>
                             <Typography>
-                                <h2 style={{ margin: "0", padding: "0 10px", fontSize: "3vh" }} align="center" >Erstelle deine eigenen Sketches!</h2>
+                                <h2 style={{ margin: "0", padding: "0 10px", fontSize: "2.5vh" }} align="center" >Erstelle deine eigenen Sketches!</h2>
                             </Typography>
                             <Grid
                                 container
@@ -128,41 +146,86 @@ class Home extends Component {
                                 alignItems="center"
                                 style={{ height: "10vh" }}
                             >
-                                <Grid item xs={2} md={2}>
-                                    <Fab
-                                        variant="extended"
-                                        onClick={() => {
-                                            this.setState({ open: true })
+                                <Grid item xs={6} md={6} style={{ position: 'relative' }}>
+                                    <div
+                                        style={{
+                                            position: 'absolute', left: '50%', top: '50%',
+                                            transform: 'translate(-50%, -50%)',
                                         }}
                                     >
-                                        <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '1vw' }} />
-                                            Upload
-                                        </Fab>
-                                </Grid>
-                                <Grid item xs={2} md={2}>
-                                    <Link to={"/blockly"} style={{ textDecoration: 'none', color: 'inherit' }}>
                                         <Fab
                                             variant="extended"
-                                            color="primary"
+                                            onClick={() => {
+                                                this.setState({ open: true })
+                                            }}
                                         >
-                                            <FontAwesomeIcon icon={faPlus} style={{ marginRight: '1vw' }} />
+                                            <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '1vw' }} />
+                                        Upload
+                                    </Fab>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={6} md={6} style={{ position: 'relative' }}>
+                                    <div
+                                        style={{
+                                            position: 'absolute', left: '50%', top: '50%',
+                                            transform: 'translate(-50%, -50%)',
+                                        }}
+                                    >
+                                        <Link to={"/blockly"} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            <Fab
+                                                variant="extended"
+                                                color="primary"
+                                            >
+                                                <FontAwesomeIcon icon={faPlus} style={{ marginRight: '1vw' }} />
                                             Blockly
                                         </Fab>
-                                    </Link>
+                                        </Link>
+                                    </div>
                                 </Grid>
                             </Grid>
                         </Card>
                     </Grid>
                     <Grid item xs={12} md={9}>
                         <Card style={{ height: '81vh', margin: '1vH 0 0 0', overflow: 'hidden', padding: '0px' }}>
+                            {this.props.sketchDetail.show ?
+                                <SketchDetail />
+                                : <iframe
+                                    src="http://192.168.1.134:8080/player.html"
+                                    name="restreamer-player"
+                                    width="100%"
+                                    height="100%"
+                                    scrolling="no"
+                                    frameborder="0"
+                                    webkitallowfullscreen="true"
+                                    mozallowfullscreen="true"
+                                    allowfullscreen="true"
+                                    title="stream"
+                                ></iframe>
+                            }
                         </Card>
                     </Grid>
                 </Grid>
                 <UploadDialog open={this.state.open} toggleDialog={() => { this.toggleDialog() }} />
+                <Snackbar
+                    open={this.state.snackbar}
+                    message={this.state.message}
+                    type={this.state.type}
+                    key={this.state.key}
+                />
             </div >
         );
     };
 }
 
+Home.propTypes = {
+    openDetails: PropTypes.func.isRequired,
+    sketchDetails: PropTypes.object.isRequired,
+    message: PropTypes.object.isRequired,
+}
 
-export default Home;
+const mapStateToProps = (state) => ({
+    message: state.message,
+    sketchDetail: state.sketchDetail
+});
+
+export default connect(mapStateToProps, { openDetails })(Home);

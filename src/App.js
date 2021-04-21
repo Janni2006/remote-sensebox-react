@@ -5,7 +5,7 @@ import { createBrowserHistory } from "history";
 
 import { Provider } from 'react-redux';
 import store from './store';
-import { loadUser } from './actions/authActions';
+// import { loadUser } from './actions/authActions';
 
 import './App.css';
 
@@ -30,17 +30,24 @@ const theme = createMuiTheme({
 
 class App extends Component {
 
-  componentDidMount() {
-    store.dispatch(loadUser());
-    if (localStorage.getItem("deviceID") === null) {
-      localStorage.setItem("deviceID", "empty");
+  random = (length = 8) => {
+    // Declare all characters
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    // Pick characers randomly
+    let str = '';
+    for (let i = 0; i < length; i++) {
+      str += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    if (localStorage.getItem("deviceID") === "empty") {
-      fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/device/register`)
-        .then((response) => response.json())
-        .then((data) => {
-          localStorage.setItem("deviceID", data.deviceID);
-        })
+
+    return str;
+
+  };
+
+  componentDidMount() {
+    // store.dispatch(loadUser());
+    if (localStorage.getItem("deviceID") === null) {
+      localStorage.setItem("deviceID", this.random(32));
     }
   }
 
