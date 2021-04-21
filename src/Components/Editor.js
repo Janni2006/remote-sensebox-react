@@ -51,7 +51,8 @@ class BlocklyEditor extends Component {
     snackbar: false,
     type: '',
     key: '',
-    message: ''
+    message: '',
+    loaded: false
   }
 
   componentDidMount() {
@@ -62,16 +63,19 @@ class BlocklyEditor extends Component {
     if (this.props.message && this.props.message.id === 'GET_SHARE_FAIL') {
       this.setState({ snackbar: true, key: Date.now(), message: `Das angefragte geteilte Projekt konnte nicht gefunden werden.`, type: 'error' });
     }
+    this.setState({ loaded: true });
   }
 
   componentDidUpdate(props) {
-    /* Resize and reposition all of the workspace chrome (toolbox, trash,
-    scrollbars etc.) This should be called when something changes that requires
-    recalculating dimensions and positions of the trash, zoom, toolbox, etc.
-    (e.g. window resize). */
-    console.log(this.props.project)
-    const workspace = Blockly.getMainWorkspace();
-    Blockly.svgResize(workspace);
+    if (this.state.loaded) {
+      /* Resize and reposition all of the workspace chrome (toolbox, trash,
+      scrollbars etc.) This should be called when something changes that requires
+      recalculating dimensions and positions of the trash, zoom, toolbox, etc.
+      (e.g. window resize). */
+      console.log(this.props.project)
+      const workspace = Blockly.getMainWorkspace();
+      Blockly.svgResize(workspace);
+    }
   }
 
   componentWillUnmount() {
@@ -90,47 +94,48 @@ class BlocklyEditor extends Component {
 
   render() {
     return (
-      <div>
-        {this.props.statistics ?
-          <div style={{ float: 'left', height: '40px', position: 'relative' }}><WorkspaceStats /></div>
-          : null
-        }
-        <div className='workspaceFunc' style={{ float: 'right', height: '40px', marginBottom: '20px' }}>
-          <WorkspaceFunc />
-        </div>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={this.state.codeOn ? 8 : 12} style={{ position: 'relative' }}>
-            <Tooltip title={this.state.codeOn ? 'Code ausblenden' : 'Code anzeigen'} >
-              <IconButton
-                className={`showCode ${this.state.codeOn ? this.props.classes.codeOn : this.props.classes.codeOff}`}
-                style={{ width: '40px', height: '40px', position: 'absolute', top: -12, right: 8, zIndex: 21 }}
-                onClick={() => this.onChange()}
-              >
-                <FontAwesomeIcon icon={faCode} size="xs" />
-              </IconButton>
-            </Tooltip>
-            <TrashcanButtons />
-            <div className='blocklyWindow'>
-              {this.props.xml ?
-                < BlocklyWindow blocklyCSS={{ height: 'calc(80vH - 40px)' }} initialXml={this.props.xml} />
-                : < BlocklyWindow blocklyCSS={{ height: 'calc(80vH - 40px)' }} />
-              }
-            </div>
-          </Grid>
-          {this.state.codeOn ?
-            <Grid item xs={12} md={4}>
-              <CodeViewer />
-              <TooltipViewer />
+      this.state.loaded ?
+        <div>
+          {this.props.statistics ?
+            <div style={{ float: 'left', height: '40px', position: 'relative' }}><WorkspaceStats /></div>
+            : null
+          }
+          <div className='workspaceFunc' style={{ float: 'right', height: '40px', marginBottom: '20px' }}>
+            <WorkspaceFunc />
+          </div>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={this.state.codeOn ? 8 : 12} style={{ position: 'relative' }}>
+              <Tooltip title={this.state.codeOn ? 'Code ausblenden' : 'Code anzeigen'} >
+                <IconButton
+                  className={`showCode ${this.state.codeOn ? this.props.classes.codeOn : this.props.classes.codeOff}`}
+                  style={{ width: '40px', height: '40px', position: 'absolute', top: -12, right: 8, zIndex: 21 }}
+                  onClick={() => this.onChange()}
+                >
+                  <FontAwesomeIcon icon={faCode} size="xs" />
+                </IconButton>
+              </Tooltip>
+              <TrashcanButtons />
+              <div className='blocklyWindow'>
+                {this.props.xml ?
+                  < BlocklyWindow blocklyCSS={{ height: 'calc(80vH - 40px)' }} initialXml={this.props.xml} />
+                  : < BlocklyWindow blocklyCSS={{ height: 'calc(80vH - 40px)' }} />
+                }
+              </div>
             </Grid>
-            : null}
-        </Grid>
-        <Snackbar
-          open={this.state.snackbar}
-          message={this.state.message}
-          type={this.state.type}
-          key={this.state.key}
-        />
-      </div>
+            {this.state.codeOn ?
+              <Grid item xs={12} md={4}>
+                <CodeViewer />
+                <TooltipViewer />
+              </Grid>
+              : null}
+          </Grid>
+          <Snackbar
+            open={this.state.snackbar}
+            message={this.state.message}
+            type={this.state.type}
+            key={this.state.key}
+          />
+        </div> : null
     );
   };
 }

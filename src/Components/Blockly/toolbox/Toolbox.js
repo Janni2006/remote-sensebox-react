@@ -1,5 +1,5 @@
 import React from 'react';
-import { Block, Value, Field, Category } from '../';
+import { Block, Value, Field, Category } from '..';
 import { getColour } from '../helpers/colour'
 import '@blockly/block-plus-minus';
 import { TypedVariableModal } from '@blockly/plugin-typed-variable-modal';
