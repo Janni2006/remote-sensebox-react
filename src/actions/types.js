@@ -61,8 +61,8 @@ export const OPEN_DETAILS = 'OPEN_DETAILS';
 export const CLOSE_DETAILS = 'CLOSE_DETAILS';
 
 // projects: share, gallery, project
-// export const PROJECT_PROGRESS = 'PROJECT_PROGRESS';
-// export const GET_PROJECT = 'GET_PROJECT';
-// export const GET_PROJECTS = 'GET_PROJECTS';
-// export const PROJECT_TYPE = 'PROJECT_TYPE';
-// export const PROJECT_DESCRIPTION = 'PROJECT_DESCRIPTION';
+export const PROJECT_PROGRESS = 'PROJECT_PROGRESS';
+export const GET_PROJECT = 'GET_PROJECT';
+export const GET_PROJECTS = 'GET_PROJECTS';
+export const PROJECT_TYPE = 'PROJECT_TYPE';
+export const PROJECT_DESCRIPTION = 'PROJECT_DESCRIPTION';

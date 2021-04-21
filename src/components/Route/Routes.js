@@ -13,8 +13,8 @@ import NotFound from '../NotFound';
 import Settings from '../Settings/Settings';
 import Impressum from '../Impressum';
 import Privacy from '../Privacy';
-import News from '../News'
-import Faq from '../Faq'
+import News from '../News';
+import Faq from '../Faq';
 
 class Routes extends Component {
 

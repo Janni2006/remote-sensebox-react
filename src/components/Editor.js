@@ -96,7 +96,6 @@ class BlocklyEditor extends Component {
           : null
         }
         <div className='workspaceFunc' style={{ float: 'right', height: '40px', marginBottom: '20px' }}>
-          {/* <WorkspaceFunc project={this.props.project} projectType={this.props.projectType} /> */}
           <WorkspaceFunc />
         </div>
         <Grid container spacing={2}>
@@ -112,8 +111,8 @@ class BlocklyEditor extends Component {
             </Tooltip>
             <TrashcanButtons />
             <div className='blocklyWindow'>
-              {this.props.project ?
-                < BlocklyWindow blocklyCSS={{ height: 'calc(80vH - 40px)' }} initialXml={this.props.project.xml} />
+              {this.props.xml ?
+                < BlocklyWindow blocklyCSS={{ height: 'calc(80vH - 40px)' }} initialXml={this.props.xml} />
                 : < BlocklyWindow blocklyCSS={{ height: 'calc(80vH - 40px)' }} />
               }
             </div>

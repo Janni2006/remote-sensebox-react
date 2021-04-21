@@ -8,5 +8,5 @@ export default combineReducers({
   workspace: workspaceReducer,
   general: generalReducer,
   message: messageReducer,
-  sketchDetail: sketchDetailReducer
+  sketchDetail: sketchDetailReducer,
 });
