@@ -68,38 +68,37 @@ class Home extends Component {
             expanded: true,
             componentHeight: null,
             componentWidth: null,
+            videoWidth: null,
+            videoHeight: null,
             snackbar: false,
             type: '',
             key: '',
             message: ''
         };
         this.myDiv = React.createRef();
+        this.liveVideo = React.createRef();
     }
 
     componentDidMount() {
-        this.setState({ componentHeight: this.myDiv.current.offsetHeight + 'px', componentWidth: this.myDiv.current.offsetWidth + 'px' });
+        this.setState({
+            componentHeight: this.myDiv.current.offsetHeight + 'px',
+            componentWidth: this.myDiv.current.offsetWidth + 'px',
+            videoWidth: this.liveVideo.current.offsetHeight,
+            videoHeight: this.liveVideo.current.offsetWidth * 0.5625
+        });
     }
 
     onChange = () => {
         this.setState({ expanded: !this.state.expanded });
-
+        console.log(this.state)
     }
 
     toggleDialog = () => {
         this.setState({ open: !this.state.open })
     }
 
-    openSketchDetail = (code) => {
-        this.props.openDetails(code);
-        console.log(this.props.sketchDetail)
-    }
-
-    closeSketchDetail = () => {
-        this.setState({ sketchDetail: "" })
-    }
-
     render() {
-        var unequal = '<>';
+        // var unequal = '<>';
         return (
             <div>
                 <Grid container spacing={2}>
@@ -112,10 +111,10 @@ class Home extends Component {
                                 onChange={this.onChange}
                             >
                                 <AccordionSummary>
-                                    <b style={{ fontSize: '20px', marginRight: '5px', width: '35px' }}>{unequal}</b>
+                                    {/* <b style={{ fontSize: '20px', marginRight: '5px', width: '35px' }}>{unequal}</b> */}
                                     <div style={{ margin: 'auto 5px 2px 0px' }}>Warteschleife</div>
                                 </AccordionSummary>
-                                <AccordionDetails style={{ padding: 0, height: `calc(${this.state.componentHeight} - 100px)`, width: this.state.componentWidth, backgroundColor: 'white' }}>
+                                <AccordionDetails style={{ padding: 0, height: 'calc(55vh - 100px)', width: this.state.componentWidth, backgroundColor: 'white' }}>
                                     <Queue />
                                 </AccordionDetails>
                             </Accordion>
@@ -126,16 +125,16 @@ class Home extends Component {
                                 onChange={this.onChange}
                             >
                                 <AccordionSummary>
-                                    <b style={{ fontSize: '20px', marginRight: '5px', width: '35px' }}>{unequal}</b>
+                                    {/* <b style={{ fontSize: '20px', marginRight: '5px', width: '35px' }}>{unequal}</b> */}
                                     <div style={{ margin: 'auto 5px 2px 0px' }}>Eigene Sketches</div>
                                 </AccordionSummary>
-                                <AccordionDetails style={{ padding: 0, height: `calc(${this.state.componentHeight} - 50px - 50px)`, width: this.state.componentWidth, backgroundColor: 'white' }}>
-                                    <Sketches openDetails={this.openSketchDetail} />
+                                <AccordionDetails style={{ padding: 0, height: 'calc(55vh - 100px)', width: this.state.componentWidth, backgroundColor: 'white' }}>
+                                    <Sketches />
                                 </AccordionDetails>
                             </Accordion>
                         </Card>
 
-                        <Card style={{ height: '25vh', margin: '1vH 0 0 0', overflow: 'hidden' }}>
+                        {this.state.videoHeight >= 100 ? <Card style={{ height: this.props.sketchDetail.show ? "24vh" : `calc(${this.state.videoHeight}px - 57vh)`, margin: '2vH 0 0 0', overflow: 'hidden' }}>
                             <Typography>
                                 <p style={{ margin: "0", padding: "0 10px", fontSize: "2.5vh" }} align="center" >Erstelle deine eigenen Sketches!</p>
                             </Typography>
@@ -160,8 +159,8 @@ class Home extends Component {
                                             }}
                                         >
                                             <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '1vw' }} />
-                                        Upload
-                                    </Fab>
+                                            Upload
+                                        </Fab>
                                     </div>
                                 </Grid>
                                 <Grid item md={12} lg={6} style={{ position: 'relative' }}>
@@ -177,16 +176,16 @@ class Home extends Component {
                                                 color="primary"
                                             >
                                                 <FontAwesomeIcon icon={faPlus} style={{ marginRight: '1vw' }} />
-                                            Blockly
-                                        </Fab>
+                                                Blockly
+                                            </Fab>
                                         </Link>
                                     </div>
                                 </Grid>
                             </Grid>
-                        </Card>
+                        </Card> : null}
                     </Grid>
                     <Grid item xs={12} md={9}>
-                        <Card style={{ height: '81vh', margin: '1vH 0 0 0', overflow: 'hidden', padding: '0px' }}>
+                        <Card style={{ height: this.props.sketchDetail.show ? '81vh' : `${this.state.videoHeight}px`, margin: '1vH 0 0 0', overflow: 'hidden', padding: '0px' }} ref={this.liveVideo}>
                             {this.props.sketchDetail.show ?
                                 <SketchDetail />
                                 : <iframe
@@ -218,8 +217,6 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-    openDetails: PropTypes.func.isRequired,
-    sketchDetails: PropTypes.object.isRequired,
     message: PropTypes.object.isRequired,
 }
 
