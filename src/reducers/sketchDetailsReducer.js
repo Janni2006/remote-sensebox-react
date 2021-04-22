@@ -7,6 +7,10 @@ const initialState = {
     },
     name: "",
     id: "",
+    error: false,
+    error_msg: "",
+    serial: "",
+    finished: false,
     blockly: false,
     show: false,
 };
@@ -22,6 +26,10 @@ export default function foo(state = initialState, action) {
                 },
                 id: action.payload.code,
                 name: action.payload.title,
+                error: action.payload.error,
+                error_msg: action.payload.error_msg,
+                serial: action.payload.serial,
+                finished: action.payload.finished,
                 blockly: action.payload.blockly,
                 show: true
             }
@@ -34,6 +42,10 @@ export default function foo(state = initialState, action) {
                 },
                 id: "",
                 name: "",
+                error: "",
+                error_msg: "",
+                serial: "",
+                finished: false,
                 blockly: false,
                 show: false
             }

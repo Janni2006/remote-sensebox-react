@@ -80,8 +80,28 @@ class QueueObject extends Component {
                         justify="space-between"
                         alignItems="center"
                     >
-                        <Grid item xs={this.props.running ? 11 : 12} md={this.props.running ? 8 : 12}>
+                        <Grid item xs={this.props.running ? 7 : 8} md={this.props.running ? 7 : 8}>
                             <p>{this.props.friendly_name}</p>
+                        </Grid>
+                        <Grid item xs={4} md={4}>
+                            {this.props.private ?
+                                <p
+                                    style={{
+                                        fontSize: "12px",
+                                        fontWeight: "bold",
+                                        margin: "0px",
+                                        marginTop: "2.5px",
+                                        marginBottom: "2.5px",
+                                        border: "1.5px solid rgb(77, 77, 77)",
+                                        width: "35px",
+                                        padding: "1.5px 4px 1.5px 4px",
+                                        borderRadius: "10px",
+                                        backgroundColor: "rgb(191, 191, 191)",
+                                        color: "rgb(77, 77, 77)"
+                                    }}
+                                >
+                                    Privat
+                                        </p> : null}
                         </Grid>
                         {this.props.running ?
                             <Grid item xs={1} md={1}>

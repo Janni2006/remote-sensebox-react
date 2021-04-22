@@ -42,12 +42,12 @@ class SketchObject extends Component {
                                         margin: "0px",
                                         marginTop: "2.5px",
                                         marginBottom: "2.5px",
-                                        border: "1.5px solid rgb(47, 107, 43)",
+                                        border: "1.5px solid rgb(35, 144, 35)",
                                         width: "48px",
                                         padding: "1.5px 4px 1.5px 4px",
                                         borderRadius: "10px",
-                                        backgroundColor: "rgba(78, 175, 71, .2)",
-                                        color: "rgb(47, 107, 43)"
+                                        backgroundColor: "rgb(132, 225, 132)",
+                                        color: "rgb(35, 144, 35)"
                                     }}
                                 >
                                     Finished
@@ -60,15 +60,33 @@ class SketchObject extends Component {
                                         margin: "0px",
                                         marginTop: "2.5px",
                                         marginBottom: "2.5px",
-                                        border: "1.5px solid rgb(153, 91, 165)",
+                                        border: "1.5px solid rgb(179, 0, 179)",
                                         width: "40px",
                                         padding: "1.5px 4px 1.5px 4px",
                                         borderRadius: "10px",
-                                        backgroundColor: "rgba(187,112,201, .2)",
-                                        color: "rgb(153, 91, 165)"
+                                        backgroundColor: "rgb(255, 77, 255)",
+                                        color: "rgb(179, 0, 179)"
                                     }}
                                 >
                                     Blockly
+                                        </p> : null}
+                            {this.props.error ?
+                                <p
+                                    style={{
+                                        fontSize: "12px",
+                                        fontWeight: "bold",
+                                        margin: "0px",
+                                        marginTop: "2.5px",
+                                        marginBottom: "2.5px",
+                                        border: "1.5px solid rgb(179, 36, 0)",
+                                        width: "30px",
+                                        padding: "1.5px 4px 1.5px 4px",
+                                        borderRadius: "10px",
+                                        backgroundColor: "rgb(255, 112, 77)",
+                                        color: "rgb(179, 36, 0)"
+                                    }}
+                                >
+                                    Error
                                         </p> : null}
                         </Grid>
                         <Grid item xs={2} md={2}>

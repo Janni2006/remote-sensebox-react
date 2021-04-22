@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -19,8 +20,13 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { green, red } from '@material-ui/core/colors';
 
 import LaunchIcon from '@material-ui/icons/Launch';
+import CheckIcon from '@material-ui/icons/Check';
+import ReplayIcon from '@material-ui/icons/Replay';
 import { faFileDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -30,6 +36,10 @@ class SketchDetail extends Component {
         this.state = {
             videoWidth: null,
             videoHeight: null,
+            progress: false,
+            open: false,
+            title: "",
+            content: "",
         };
         this.video = React.createRef();
     }
@@ -39,6 +49,7 @@ class SketchDetail extends Component {
             videoWidth: this.video.current.offsetHeight,
             videoHeight: this.video.current.offsetWidth * 0.5625
         });
+        console.log(this.props.sketchDetail.error_msg)
     }
 
     downloadXmlFile = () => {
@@ -82,7 +93,7 @@ class SketchDetail extends Component {
                 <div style={{ padding: "0 2vw" }}>
                     <Grid container spacing={3}>
                         <Grid item xs={6} md={6}>
-                            <Card style={{ height: `${this.state.videoHeight}px` }} ref={this.video}>
+                            <Card style={{ height: `${this.state.videoHeight}px`, maxHeight: "40vh" }} ref={this.video}>
                                 <iframe
                                     src="http://192.168.1.134:8080/player.html"
                                     name="restreamer-player"
@@ -96,47 +107,84 @@ class SketchDetail extends Component {
                                     title="stream"
                                 ></iframe>
                             </Card>
-                            <Card style={{ padding: "1vh 1vw", height: "8vh", marginTop: "2.5vh", }}>
-                                Downloade dieses Projekt
-                                <div style={{ width: 'max-content', display: 'flex' }}>
-                                    <Fab
-                                        variant="extended"
-                                        onClick={() => this.downloadInoFile()}
-                                    >
-                                        Arduino
-                                    </Fab>
-                                    <Fab
-                                        variant="extended"
-                                        onClick={() => this.downloadXmlFile()}
-                                    >
-                                        <FontAwesomeIcon icon={faFileDownload} style={{ marginRight: '0.5vw' }} size="md" />
-                                        XML
-                                    </Fab>
+                            <Card style={{ padding: "1vh 1vw", height: "6vh", marginTop: "2.5vh", }}>
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justify="space-evenly"
+                                    alignItems="center"
+                                    style={{
+                                        height: "6vh"
+                                    }}
+                                >
+                                    <Grid item md={6} lg={this.props.sketchDetail.blockly ? 3 : 6} style={{ position: 'relative' }}>
+                                        <Fab
+                                            variant="extended"
+                                            onClick={() => this.downloadInoFile()}
+                                            style={{
+                                                position: 'absolute', left: '50%', top: '50%',
+                                                transform: 'translate(-50%, -50%)'
+                                            }}
+
+                                        >
+                                            Arduino
+                                        </Fab>
+                                    </Grid>
                                     {this.props.sketchDetail.blockly ?
-                                        <Tooltip title="Öffne das Programm in der Blockly-Umgebung" arrow>
-                                            <Link to={`/blockly/${this.props.sketchDetail.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                                <Fab
-                                                    variant="extended"
-                                                    color="primary"
-                                                >
-                                                    <LaunchIcon style={{ marginRight: "1vw" }} />
-                                                Blockly
+                                        <Grid item md={6} lg={3} style={{ position: 'relative' }}>
+                                            <Fab
+                                                variant="extended"
+                                                onClick={() => this.downloadXmlFile()}
+                                                style={{
+                                                    position: 'absolute', left: '50%', top: '50%',
+                                                    transform: 'translate(-50%, -50%)'
+                                                }}
+                                            >
+                                                <FontAwesomeIcon icon={faFileDownload} style={{ marginRight: '0.5vw' }} size="md" />
+                                                XML
                                             </Fab>
-                                            </Link>
-                                        </Tooltip>
+                                        </Grid>
                                         : null
                                     }
-                                </div>
+                                    {this.props.sketchDetail.blockly ?
+                                        <Grid item md={6} lg={3} style={{ position: 'relative' }}>
+                                            <Tooltip title="Öffne das Programm in der Blockly-Umgebung" arrow>
+                                                <Link to={`/blockly/${this.props.sketchDetail.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                    <Fab
+                                                        variant="extended"
+                                                        color="primary"
+                                                        style={{
+                                                            position: 'absolute', left: '50%', top: '50%',
+                                                            transform: 'translate(-50%, -50%)'
+                                                        }}
+
+                                                    >
+                                                        <LaunchIcon style={{ marginRight: "1vw" }} />
+                                                        Blockly
+                                                    </Fab>
+                                                </Link>
+                                            </Tooltip>
+                                        </Grid>
+                                        : null
+                                    }
+                                    <Grid item md={6} lg={this.props.sketchDetail.blockly ? 3 : 6} style={{ position: 'relative' }}>
+                                        <SketchRestart
+                                            title={this.props.sketchDetail.name}
+                                            arduino={this.props.sketchDetail.code.sketch}
+                                            xml={this.props.sketchDetail.code.xml}
+                                        />
+                                    </Grid>
+                                </Grid>
                             </Card>
                         </Grid>
                         <Grid item xs={6} md={6}>
-                            <Card style={{ height: "49vh" }}>
-                                <Code arduino={this.props.sketchDetail.code.sketch} />
+                            <Card style={{ height: `calc(${this.state.videoHeight}px + 10.5vh)`, maxHeight: "50.5vh" }}>
+                                <Code code={this.props.sketchDetail.code.sketch} />
                             </Card>
                         </Grid>
                         <Grid item xs={12} md={12}>
                             <Card style={{ height: "20vh" }}>
-                                <Code arduino="Serielle Konsole" />
+                                {this.props.sketchDetail.error ? <Code code={this.props.sketchDetail.error_msg} /> : <Code code={this.props.sketchDetail.finished ? this.props.sketchDetail.serial : "Die Serielle Konsole ist erst nach dem Ausführen des Sketches verfügbar"} />}
                             </Card>
                         </Grid>
                     </Grid>
@@ -157,13 +205,119 @@ class Code extends Component {
 
     render() {
         return (
-            <pre className="line-numbers" style={{ paddingBottom: 0, width: '100%', overflow: 'auto', scrollbarWidth: 'thin', height: '100%', margin: '0', paddingTop: 0, whiteSpace: 'pre-wrap', backgroundColor: 'white' }}>
+            <pre
+                className="line-numbers"
+                style={{
+                    paddingBottom: 0,
+                    width: '100%',
+                    overflow: 'auto',
+                    scrollbarWidth: 'thin',
+                    height: '100%',
+                    margin: '0',
+                    paddingTop: 0,
+                    whiteSpace: 'pre-wrap',
+                    backgroundColor: 'white'
+                }}
+            >
                 <code className="language-clike">
-                    {this.props.arduino}
+                    {this.props.code}
                 </code>
             </pre>
         );
     }
+}
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        alignItems: 'center',
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)'
+    },
+    wrapper: {
+        margin: theme.spacing(1),
+        position: 'relative',
+    },
+    buttonSuccess: {
+        backgroundColor: green[500],
+        '&:hover': {
+            backgroundColor: green[700],
+        },
+    },
+    buttonError: {
+        backgroundColor: red[500],
+        '&:hover': {
+            backgroundColor: red[700],
+        },
+    },
+    fabProgress: {
+        color: green[500],
+        position: 'absolute',
+        top: -6,
+        left: -6,
+        zIndex: 1,
+    },
+}));
+
+function SketchRestart(props) {
+    const classes = useStyles();
+    const [loading, setLoading] = React.useState(false);
+    const [success, setSuccess] = React.useState(false);
+    const [error, setError] = React.useState(false);
+
+    const buttonClassname = clsx({
+        [classes.buttonSuccess]: success,
+        [classes.buttonError]: error
+    });
+
+    const restartSketch = () => {
+        if (!loading) {
+            setSuccess(false);
+            setError(false);
+            setLoading(true);
+            const data = {
+                "sketch_name": props.title,
+                "sketch": props.arduino,
+                "sketch_xml": props.xml
+            };
+
+            fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                body: JSON.stringify(data)
+            })
+                .then(() => {
+                    setLoading(false);
+                    setSuccess(true);
+                    setTimeout(() => { setSuccess(false) }, 2000);
+                })
+                .catch(() => {
+                    setLoading(false);
+                    setError(true);
+                    setTimeout(() => { setError(false) }, 2000);
+                });
+        }
+    }
+
+    return (
+        <Tooltip title="Lade das Programm erneut auf die senseBox" arrow>
+            <div className={classes.root}>
+                <div className={classes.wrapper}>
+                    <Fab
+                        aria-label="save"
+                        className={buttonClassname}
+                        onClick={restartSketch}
+                        style={{ height: "48px", width: "48px" }}
+                    >
+                        {success ? <CheckIcon /> : error ? <CloseIcon /> : <ReplayIcon />}
+                    </Fab>
+                    {loading && <CircularProgress size={58} className={classes.fabProgress} />}
+                </div>
+            </div>
+        </Tooltip>
+    );
 }
 
 SketchDetail.propTypes = {

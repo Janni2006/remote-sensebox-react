@@ -111,7 +111,6 @@ class Home extends Component {
                                 onChange={this.onChange}
                             >
                                 <AccordionSummary>
-                                    {/* <b style={{ fontSize: '20px', marginRight: '5px', width: '35px' }}>{unequal}</b> */}
                                     <div style={{ margin: 'auto 5px 2px 0px' }}>Warteschleife</div>
                                 </AccordionSummary>
                                 <AccordionDetails style={{ padding: 0, height: 'calc(55vh - 100px)', width: this.state.componentWidth, backgroundColor: 'white' }}>
@@ -125,7 +124,6 @@ class Home extends Component {
                                 onChange={this.onChange}
                             >
                                 <AccordionSummary>
-                                    {/* <b style={{ fontSize: '20px', marginRight: '5px', width: '35px' }}>{unequal}</b> */}
                                     <div style={{ margin: 'auto 5px 2px 0px' }}>Eigene Sketches</div>
                                 </AccordionSummary>
                                 <AccordionDetails style={{ padding: 0, height: 'calc(55vh - 100px)', width: this.state.componentWidth, backgroundColor: 'white' }}>
@@ -133,8 +131,7 @@ class Home extends Component {
                                 </AccordionDetails>
                             </Accordion>
                         </Card>
-
-                        {this.state.videoHeight >= 100 ? <Card style={{ height: this.props.sketchDetail.show ? "24vh" : `calc(${this.state.videoHeight}px - 57vh)`, margin: '2vH 0 0 0', overflow: 'hidden' }}>
+                        <Card style={{ height: this.props.sketchDetail.show ? "24vh" : `calc(${this.state.videoHeight}px - 57vh)`, margin: '2vH 0 0 0', overflow: 'hidden', maxHeight: "31vh" }}>
                             <Typography>
                                 <p style={{ margin: "0", padding: "0 10px", fontSize: "2.5vh" }} align="center" >Erstelle deine eigenen Sketches!</p>
                             </Typography>
@@ -182,10 +179,10 @@ class Home extends Component {
                                     </div>
                                 </Grid>
                             </Grid>
-                        </Card> : null}
+                        </Card>
                     </Grid>
                     <Grid item xs={12} md={9}>
-                        <Card style={{ height: this.props.sketchDetail.show ? '81vh' : `${this.state.videoHeight}px`, margin: '1vH 0 0 0', overflow: 'hidden', padding: '0px' }} ref={this.liveVideo}>
+                        <Card style={{ height: this.props.sketchDetail.show ? '81vh' : `${this.state.videoHeight}px`, margin: '1vH 0 0 0', overflow: 'hidden', padding: '0px', maxHeight: "88vh" }} ref={this.liveVideo}>
                             {this.props.sketchDetail.show ?
                                 <SketchDetail />
                                 : <iframe

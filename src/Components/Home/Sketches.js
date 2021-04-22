@@ -49,6 +49,7 @@ function Sketches() {
                             blockly={sketch_item.blockly}
                             finished={sketch_item.finished}
                             code={sketch_item.code}
+                            error={sketch_item.error}
                         />
                     })}
                     {sketches && sketches.length === 0 ? <ListItem>Du hast noch kein Sketch hochgeladen</ListItem> : null}
