@@ -95,7 +95,7 @@ class SketchDetail extends Component {
                         <Grid item xs={6} md={6}>
                             <Card style={{ height: `${this.state.videoHeight}px`, maxHeight: "40vh" }} ref={this.video}>
                                 <iframe
-                                    src="http://192.168.1.134:8080/player.html"
+                                    src={`${process.env.REACT_APP_CAMERA_SERVER}/player.html`}
                                     name="restreamer-player"
                                     width="100%"
                                     height="100%"
@@ -107,7 +107,7 @@ class SketchDetail extends Component {
                                     title="stream"
                                 ></iframe>
                             </Card>
-                            <Card style={{ padding: "1vh 1vw", height: "6vh", marginTop: "2.5vh", }}>
+                            <Card style={{ padding: "1vh 1vw", height: this.state.videoHeight < 300 ? "12vh" : "6vh", marginTop: "2.5vh", }}>
                                 <Grid
                                     container
                                     direction="row"
@@ -117,6 +117,7 @@ class SketchDetail extends Component {
                                         height: "6vh"
                                     }}
                                 >
+
                                     <Grid item md={6} lg={this.props.sketchDetail.blockly ? 3 : 6} style={{ position: 'relative' }}>
                                         <Fab
                                             variant="extended"
@@ -129,8 +130,24 @@ class SketchDetail extends Component {
                                         >
                                             Arduino
                                         </Fab>
+                                        {this.props.sketchDetail.blockly && this.state.videoHeight < 300 ?
+                                            <Grid item md={6} lg={3} style={{ position: 'relative' }}>
+                                                <Fab
+                                                    variant="extended"
+                                                    onClick={() => this.downloadXmlFile()}
+                                                    style={{
+                                                        position: 'absolute', left: '50%', top: '50%',
+                                                        transform: 'translate(-50%, -50%)'
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon icon={faFileDownload} style={{ marginRight: '0.5vw' }} size="md" />
+                                                XML
+                                            </Fab>
+                                            </Grid>
+                                            : null
+                                        }
                                     </Grid>
-                                    {this.props.sketchDetail.blockly ?
+                                    {this.props.sketchDetail.blockly && this.state.videoHeight >= 300 ?
                                         <Grid item md={6} lg={3} style={{ position: 'relative' }}>
                                             <Fab
                                                 variant="extended"
@@ -146,7 +163,7 @@ class SketchDetail extends Component {
                                         </Grid>
                                         : null
                                     }
-                                    {this.props.sketchDetail.blockly ?
+                                    {this.props.sketchDetail.blockly && this.state.videoHeight >= 300 ?
                                         <Grid item md={6} lg={3} style={{ position: 'relative' }}>
                                             <Tooltip title="Öffne das Programm in der Blockly-Umgebung" arrow>
                                                 <Link to={`/blockly/${this.props.sketchDetail.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -168,11 +185,45 @@ class SketchDetail extends Component {
                                         : null
                                     }
                                     <Grid item md={6} lg={this.props.sketchDetail.blockly ? 3 : 6} style={{ position: 'relative' }}>
-                                        <SketchRestart
-                                            title={this.props.sketchDetail.name}
-                                            arduino={this.props.sketchDetail.code.sketch}
-                                            xml={this.props.sketchDetail.code.xml}
-                                        />
+                                        <Grid
+                                            container
+                                            direction="column"
+                                            justify="center"
+                                            alignItems="center"
+                                        >
+                                            <Grid item style={{ height: "48px", width: "100%" }}>
+                                                <SketchRestart
+                                                    title={this.props.sketchDetail.name}
+                                                    arduino={this.props.sketchDetail.code.sketch}
+                                                    xml={this.props.sketchDetail.code.xml}
+                                                />
+                                            </Grid>
+
+                                            {this.props.sketchDetail.blockly && this.state.videoHeight < 300 ?
+                                                <Grid item style={{ height: "48px", wisth: "100%" }}>
+                                                    <Grid item md={6} lg={3} style={{ position: 'relative' }}>
+                                                        <Tooltip title="Öffne das Programm in der Blockly-Umgebung" arrow>
+                                                            <Link to={`/blockly/${this.props.sketchDetail.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                                <Fab
+                                                                    variant="extended"
+                                                                    color="primary"
+                                                                    style={{
+                                                                        position: 'absolute', left: '50%', top: '50%',
+                                                                        transform: 'translate(-50%, -50%)'
+                                                                    }}
+
+                                                                >
+                                                                    <LaunchIcon style={{ marginRight: "1vw" }} />
+                                                        Blockly
+                                                    </Fab>
+                                                            </Link>
+                                                        </Tooltip>
+                                                    </Grid>
+                                                </Grid>
+                                                : null
+                                            }
+                                        </Grid>
+
                                     </Grid>
                                 </Grid>
                             </Card>
@@ -184,12 +235,12 @@ class SketchDetail extends Component {
                         </Grid>
                         <Grid item xs={12} md={12}>
                             <Card style={{ height: "20vh" }}>
-                                {this.props.sketchDetail.error ? <Code code={this.props.sketchDetail.error_msg} /> : <Code code={this.props.sketchDetail.finished ? this.props.sketchDetail.serial : "Die Serielle Konsole ist erst nach dem Ausführen des Sketches verfügbar"} />}
+                                {this.props.sketchDetail.error ? <Code code={this.props.sketchDetail.error_msg} /> : <Code code={this.props.sketchDetail.finished ? this.props.sketchDetail.serial !== null ? this.props.sketchDetail.serial : "Es sind keine Daten für die Serielle-Konsole vorhanden." : "Die Serielle Konsole ist erst nach dem Ausführen des Sketches verfügbar"} />}
                             </Card>
                         </Grid>
                     </Grid>
                 </div>
-            </div>
+            </div >
         )
     }
 }
@@ -282,22 +333,39 @@ function SketchRestart(props) {
                 "sketch": props.arduino,
                 "sketch_xml": props.xml
             };
-
-            fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
-                body: JSON.stringify(data)
-            })
-                .then(() => {
-                    setLoading(false);
-                    setSuccess(true);
-                    setTimeout(() => { setSuccess(false) }, 2000);
+            if (process.env.React_APP_SAME_SERVER === "true") {
+                fetch(`${window.location.origin}/api/upload`, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                    body: JSON.stringify(data)
                 })
-                .catch(() => {
-                    setLoading(false);
-                    setError(true);
-                    setTimeout(() => { setError(false) }, 2000);
-                });
+                    .then(() => {
+                        setLoading(false);
+                        setSuccess(true);
+                        setTimeout(() => { setSuccess(false) }, 2000);
+                    })
+                    .catch(() => {
+                        setLoading(false);
+                        setError(true);
+                        setTimeout(() => { setError(false) }, 2000);
+                    });
+            } else {
+                fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                    body: JSON.stringify(data)
+                })
+                    .then(() => {
+                        setLoading(false);
+                        setSuccess(true);
+                        setTimeout(() => { setSuccess(false) }, 2000);
+                    })
+                    .catch(() => {
+                        setLoading(false);
+                        setError(true);
+                        setTimeout(() => { setError(false) }, 2000);
+                    });
+            }
         }
     }
 

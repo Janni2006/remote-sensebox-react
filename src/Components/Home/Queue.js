@@ -9,18 +9,30 @@ import ListItem from '@material-ui/core/ListItem';
 
 import ReactLoading from 'react-loading';
 
+import * as Blockly from "blockly/core";
+
 function Queue() {
     const [queue, setQueue] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         const timer = setInterval(async function () {
-            const response = await fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/queue`, {
-                method: "GET",
-                headers: {
-                    deviceID: localStorage.getItem("deviceID").toString(),
-                },
-            });
+            var response = null;
+            if (process.env.React_APP_SAME_SERVER === "true") {
+                response = await fetch(`${window.location.origin}/api/queue`, {
+                    method: "GET",
+                    headers: {
+                        deviceID: localStorage.getItem("deviceID").toString(),
+                    },
+                });
+            } else {
+                response = await fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/queue`, {
+                    method: "GET",
+                    headers: {
+                        deviceID: localStorage.getItem("deviceID").toString(),
+                    },
+                });
+            }
             const data = await response.json();
             setQueue(data.queue);
             setLoading(false);
@@ -51,7 +63,7 @@ function Queue() {
                             progress={queue_item.progress}
                         />
                     })}
-                    {queue && queue.length === 0 ? <ListItem>Es wartet aktuell niemand</ListItem> : null}
+                    {queue && queue.length === 0 ? <ListItem>{Blockly.Msg.home_queue_EMPTY}</ListItem> : null}
                 </List>
             }
         </div>

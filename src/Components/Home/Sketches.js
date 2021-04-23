@@ -7,18 +7,30 @@ import SketchObject from './SketchObject';
 
 import ReactLoading from 'react-loading';
 
+import * as Blockly from "blockly/core";
+
 function Sketches() {
     const [sketches, setSketches] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         const timer = setInterval(async function () {
-            const response = await fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/private-sketches`, {
-                method: "GET",
-                headers: {
-                    deviceID: localStorage.getItem("deviceID").toString(),
-                },
-            });
+            var response = null;
+            if (process.env.React_APP_SAME_SERVER === "true") {
+                response = await fetch(`${window.location.origin}/api/private-sketches`, {
+                    method: "GET",
+                    headers: {
+                        deviceID: localStorage.getItem("deviceID").toString(),
+                    },
+                });
+            } else {
+                response = await fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/private-sketches`, {
+                    method: "GET",
+                    headers: {
+                        deviceID: localStorage.getItem("deviceID").toString(),
+                    },
+                });
+            }
             const data = await response.json();
             setSketches(data);
             setLoading(false);
@@ -52,7 +64,7 @@ function Sketches() {
                             error={sketch_item.error}
                         />
                     })}
-                    {sketches && sketches.length === 0 ? <ListItem>Du hast noch kein Sketch hochgeladen</ListItem> : null}
+                    {sketches && sketches.length === 0 ? <ListItem>{Blockly.Msg.home_private_sketches_EMPTY}</ListItem> : null}
                 </List>
             }
         </div>

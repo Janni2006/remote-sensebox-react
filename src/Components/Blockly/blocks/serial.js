@@ -1,6 +1,6 @@
 import * as Blockly from "blockly/core";
 import { getColour } from "../helpers/colour";
-import { selectedBoard } from "../helpers/board";
+// import { selectedBoard } from "../helpers/board";
 
 Blockly.Blocks["init_serial_monitor"] = {
     init: function () {
@@ -11,12 +11,14 @@ Blockly.Blocks["init_serial_monitor"] = {
         this.appendDummyInput()
             .appendField(Blockly.Msg.ARD_SERIAL_SETUP)
             .appendField(
-                new Blockly.FieldDropdown(selectedBoard().serial),
+                // new Blockly.FieldDropdown(selectedBoard().serial),
+                new Blockly.FieldDropdown([['serial', 'SerialUSB']]),
                 "SERIAL_ID"
             )
             .appendField(Blockly.Msg.ARD_SERIAL_SPEED)
             .appendField(
-                new Blockly.FieldDropdown(selectedBoard().serialSpeed),
+                // new Blockly.FieldDropdown(selectedBoard().serialSpeed),
+                new Blockly.FieldDropdown([['9600', '9600']]),
                 "SPEED"
             )
             .appendField(Blockly.Msg.ARD_SERIAL_BPS);
@@ -33,7 +35,8 @@ Blockly.Blocks["print_serial_monitor"] = {
         this.setHelpUrl("http://www.arduino.cc/en/Serial/Print");
         this.appendDummyInput()
             .appendField(
-                new Blockly.FieldDropdown(selectedBoard().serial),
+                // new Blockly.FieldDropdown(selectedBoard().serial),
+                new Blockly.FieldDropdown([['serial', 'SerialUSB']]),
                 "SERIAL_ID"
             )
             .appendField(Blockly.Msg.ARD_SERIAL_PRINT);

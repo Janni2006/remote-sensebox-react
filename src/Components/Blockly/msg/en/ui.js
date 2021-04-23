@@ -233,4 +233,14 @@ export const UI = {
     tooltip_moreInformation: "More informations can be found ",
     tooltip_hint: "Select a Block to show the hint",
 
+    /*
+    * Home Page
+    */
+    home_queue: "Queue",
+    home_queue_EMPTY: "There are no sketches in the queue",
+    home_private_sketches: "Your sketches",
+    home_private_sketches_EMPTY: "There are no private Sketches yet",
+    home_upload: "Create your own sketch!",
+
+    home_upload_dialog_DEFAULT: "// Please paste your code in here"
 }

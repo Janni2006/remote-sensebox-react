@@ -3,12 +3,23 @@ import * as Blockly from 'blockly/core';
 
 import { detectWhitespacesAndReturnReadableResult } from '../../helpers/whitespace';
 
+import { withStyles } from '@material-ui/core/styles';
 import Editor from "@monaco-editor/react";
 import Button from '@material-ui/core/Button';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { Tooltip } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 
 import Dialog from '../Dialog';
+import Copy from '../copy.svg';
+
+const styles = (theme) => ({
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+    }
+});
 
 class UploadDialog extends Component {
     constructor(props) {
@@ -44,26 +55,40 @@ class UploadDialog extends Component {
                 this.createFileName();
             } else {
                 this.setState({ file: false, open: false, title: '', content: '', progress: true });
+                this.props.toggleDialog();
                 const data = {
                     "sketch_name": this.state.name,
                     "sketch": this.state.sketch
                 };
-                console.log(data)
-                await fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
-                    body: JSON.stringify(data)
-                })
-                    .then(data => {
-                        console.log("data");
-                        this.setState({ progress: false });
-                        this.props.toggleDialog();
+                if (process.env.React_APP_SAME_SERVER === "true") {
+                    await fetch(`${window.location.origin}/api/upload`, {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                        body: JSON.stringify(data)
                     })
-                    .catch(err => {
-                        console.log("err");
-                        this.setState({ progress: false, file: false, open: true, title: Blockly.Msg.compiledialog_headline, content: Blockly.Msg.compiledialog_text });
-                    });
-                console.log("here2");
+                        .then(() => {
+                            this.setState({ progress: false });
+                        })
+                        .catch(() => {
+                            this.props.toggleDialog();
+                            this.setState({ progress: false, file: false, open: true, title: Blockly.Msg.compiledialog_headline, content: Blockly.Msg.compiledialog_text });
+                        });
+                }
+                else {
+                    await fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                        body: JSON.stringify(data)
+                    })
+                        .then(() => {
+                            this.setState({ progress: false });
+                        })
+                        .catch(() => {
+                            this.props.toggleDialog();
+                            this.setState({ progress: false, file: false, open: true, title: Blockly.Msg.compiledialog_headline, content: Blockly.Msg.compiledialog_text });
+                        });
+                }
+
             }
         } else {
             this.setState({ file: false, open: true, title: "Error", content: "Sie haben keinen sketch eingegeben" });
@@ -72,7 +97,7 @@ class UploadDialog extends Component {
 
     createFileName = () => {
         if (!this.state.name) {
-            this.setState({ file: true, open: true, title: 'Projekt kompilieren', content: 'Bitte gib einen Namen für die Bennenung des hoch zu ladenden Programms ein und bestätige diesen mit einem Klick auf \'Eingabe\'.' });
+            this.setState({ file: true, open: true, title: 'Projekt hocladen', content: 'Bitte gib einen Namen für die Bennenung des hoch zu ladenden Programms ein und bestätige diesen mit einem Klick auf \'Eingabe\'.' });
         }
     }
 
@@ -132,13 +157,22 @@ class UploadDialog extends Component {
                                 height="50vh"
                                 width="50vw"
                                 defaultLanguage="cpp"
-                                defaultValue="// Please paste your code in here"
+                                defaultValue={Blockly.Msg.home_upload_dialog_DEFAULT}
                                 onChange={this.handleEditorChange}
                                 value={this.state.usketch}
                             />
                         </div>
                     }
                 </Dialog>
+                <Backdrop className={this.props.classes.backdrop} open={this.state.progress}>
+                    <div className='overlay'>
+                        <img src={Copy} width="400" alt="copyimage"></img>
+                        <h2>{Blockly.Msg.compile_overlay_head}</h2>
+                        <p>{Blockly.Msg.compile_overlay_text}</p>
+                        <p>{Blockly.Msg.compile_overlay_help}<a href="/faq" target="_blank">FAQ</a></p>
+                        <CircularProgress color="inherit" />
+                    </div>
+                </Backdrop>
                 <Dialog
                     open={this.state.open}
                     title={this.state.title}
@@ -159,4 +193,4 @@ class UploadDialog extends Component {
     }
 }
 
-export default UploadDialog;
+export default (withStyles(styles, { withTheme: true })(UploadDialog));

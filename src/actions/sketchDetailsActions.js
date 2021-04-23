@@ -22,17 +22,31 @@ export const openDetails = (sketchID) => (dispatch) => {
             }
         }
     }
-    axios.get(`${process.env.REACT_APP_REMOTE_BACKEND}/api/sketch/${sketchID}`, {
-        headers: {
-            deviceID: localStorage.getItem("deviceID").toString(),
-        },
-    })
-        .then(res => {
-            config.success(res);
+    if (process.env.React_APP_SAME_SERVER === "true") {
+        axios.get(`${window.location.origin}/api/sketch/${sketchID}`, {
+            headers: {
+                deviceID: localStorage.getItem("deviceID").toString(),
+            },
         })
-        .catch(err => {
-            config.error(err);
-        });
+            .then(res => {
+                config.success(res);
+            })
+            .catch(err => {
+                config.error(err);
+            });
+    } else {
+        axios.get(`${process.env.REACT_APP_REMOTE_BACKEND}/api/sketch/${sketchID}`, {
+            headers: {
+                deviceID: localStorage.getItem("deviceID").toString(),
+            },
+        })
+            .then(res => {
+                config.success(res);
+            })
+            .catch(err => {
+                config.error(err);
+            });
+    }
 };
 
 export const closeDetails = () => (dispatch) => {

@@ -32,13 +32,23 @@ export const getProject = (id) => (dispatch) => {
       dispatch({ type: PROJECT_PROGRESS });
     }
   };
-  axios.get(`${process.env.REACT_APP_REMOTE_BACKEND}/api/sketch/${id}`, config)
-    .then(res => {
-      res.config.success(res);
-    })
-    .catch(err => {
-      err.config.error(err);
-    });
+  if (process.env.React_APP_SAME_SERVER === "true") {
+    axios.get(`${window.location.origin}/api/sketch/${id}`, config)
+      .then(res => {
+        res.config.success(res);
+      })
+      .catch(err => {
+        err.config.error(err);
+      });
+  } else {
+    axios.get(`${process.env.REACT_APP_REMOTE_BACKEND}/api/sketch/${id}`, config)
+      .then(res => {
+        res.config.success(res);
+      })
+      .catch(err => {
+        err.config.error(err);
+      });
+  }
 };
 
 export const resetProject = () => (dispatch) => {

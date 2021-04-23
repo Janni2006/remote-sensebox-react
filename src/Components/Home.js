@@ -19,6 +19,8 @@ import UploadDialog from './Home/UploadDialog';
 import SketchDetail from './Home/SketchDetails';
 import Snackbar from './Snackbar';
 
+import * as Blockly from "blockly/core";
+
 import { faPlus, faFileUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -80,9 +82,10 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        console.log(process.env)
         this.setState({
-            componentHeight: this.myDiv.current.offsetHeight + 'px',
-            componentWidth: this.myDiv.current.offsetWidth + 'px',
+            componentHeight: this.myDiv.current.offsetHeight,
+            componentWidth: this.myDiv.current.offsetWidth,
             videoWidth: this.liveVideo.current.offsetHeight,
             videoHeight: this.liveVideo.current.offsetWidth * 0.5625
         });
@@ -98,7 +101,6 @@ class Home extends Component {
     }
 
     render() {
-        // var unequal = '<>';
         return (
             <div>
                 <Grid container spacing={2}>
@@ -111,9 +113,9 @@ class Home extends Component {
                                 onChange={this.onChange}
                             >
                                 <AccordionSummary>
-                                    <div style={{ margin: 'auto 5px 2px 0px' }}>Warteschleife</div>
+                                    <div style={{ margin: 'auto 5px 2px 0px' }}>{Blockly.Msg.home_queue}</div>
                                 </AccordionSummary>
-                                <AccordionDetails style={{ padding: 0, height: 'calc(55vh - 100px)', width: this.state.componentWidth, backgroundColor: 'white' }}>
+                                <AccordionDetails style={{ padding: 0, height: 'calc(55vh - 100px)', width: `${this.state.componentWidth}px`, backgroundColor: 'white' }}>
                                     <Queue />
                                 </AccordionDetails>
                             </Accordion>
@@ -124,69 +126,70 @@ class Home extends Component {
                                 onChange={this.onChange}
                             >
                                 <AccordionSummary>
-                                    <div style={{ margin: 'auto 5px 2px 0px' }}>Eigene Sketches</div>
+                                    <div style={{ margin: 'auto 5px 2px 0px' }}>{Blockly.Msg.home_private_sketches}</div>
                                 </AccordionSummary>
-                                <AccordionDetails style={{ padding: 0, height: 'calc(55vh - 100px)', width: this.state.componentWidth, backgroundColor: 'white' }}>
+                                <AccordionDetails style={{ padding: 0, height: 'calc(55vh - 100px)', width: `${this.state.componentWidth}px`, backgroundColor: 'white' }}>
                                     <Sketches />
                                 </AccordionDetails>
                             </Accordion>
                         </Card>
-                        <Card style={{ height: this.props.sketchDetail.show ? "24vh" : `calc(${this.state.videoHeight}px - 57vh)`, margin: '2vH 0 0 0', overflow: 'hidden', maxHeight: "31vh" }}>
-                            <Typography>
-                                <p style={{ margin: "0", padding: "0 10px", fontSize: "2.5vh" }} align="center" >Erstelle deine eigenen Sketches!</p>
-                            </Typography>
-                            <Grid
-                                container
-                                direction="row"
-                                justify="space-evenly"
-                                style={{ height: "15vh" }}
-                                spacing={7}
-                            >
-                                <Grid item md={12} lg={6} style={{ position: 'relative' }}>
-                                    <div
-                                        style={{
-                                            position: 'absolute', left: '50%', top: '50%',
-                                            transform: 'translate(-50%, -50%)',
-                                        }}
-                                    >
-                                        <Fab
-                                            variant="extended"
-                                            onClick={() => {
-                                                this.setState({ open: true })
+                        {this.state.componentHeight < this.state.videoHeight ?
+                            <Card style={{ height: this.props.sketchDetail.show ? "24vh" : `calc(${this.state.videoHeight}px - 57vh)`, margin: '2vH 0 0 0', overflow: 'hidden', maxHeight: "31vh", minHeight: "20vh" }}>
+                                <Typography>
+                                    <p style={{ margin: "0", padding: "0 10px", fontSize: "2.5vh" }} align="center" >{Blockly.Msg.home_upload}</p>
+                                </Typography>
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justify="space-evenly"
+                                    style={{ height: "15vh" }}
+                                    spacing={7}
+                                >
+                                    <Grid item md={12} lg={6} style={{ position: 'relative' }}>
+                                        <div
+                                            style={{
+                                                position: 'absolute', left: '50%', top: '50%',
+                                                transform: 'translate(-50%, -50%)',
                                             }}
                                         >
-                                            <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '1vw' }} />
-                                            Upload
-                                        </Fab>
-                                    </div>
-                                </Grid>
-                                <Grid item md={12} lg={6} style={{ position: 'relative' }}>
-                                    <div
-                                        style={{
-                                            position: 'absolute', left: '50%', top: '50%',
-                                            transform: 'translate(-50%, -50%)',
-                                        }}
-                                    >
-                                        <Link to={"/blockly"} style={{ textDecoration: 'none', color: 'inherit' }}>
                                             <Fab
                                                 variant="extended"
-                                                color="primary"
+                                                onClick={() => {
+                                                    this.setState({ open: true })
+                                                }}
                                             >
-                                                <FontAwesomeIcon icon={faPlus} style={{ marginRight: '1vw' }} />
+                                                <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '1vw' }} />
+                                            Upload
+                                        </Fab>
+                                        </div>
+                                    </Grid>
+                                    <Grid item md={12} lg={6} style={{ position: 'relative' }}>
+                                        <div
+                                            style={{
+                                                position: 'absolute', left: '50%', top: '50%',
+                                                transform: 'translate(-50%, -50%)',
+                                            }}
+                                        >
+                                            <Link to={"/blockly"} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                <Fab
+                                                    variant="extended"
+                                                    color="primary"
+                                                >
+                                                    <FontAwesomeIcon icon={faPlus} style={{ marginRight: '1vw' }} />
                                                 Blockly
                                             </Fab>
-                                        </Link>
-                                    </div>
+                                            </Link>
+                                        </div>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Card>
+                            </Card> : null}
                     </Grid>
                     <Grid item xs={12} md={9}>
                         <Card style={{ height: this.props.sketchDetail.show ? '81vh' : `${this.state.videoHeight}px`, margin: '1vH 0 0 0', overflow: 'hidden', padding: '0px', maxHeight: "88vh" }} ref={this.liveVideo}>
                             {this.props.sketchDetail.show ?
                                 <SketchDetail />
                                 : <iframe
-                                    src="http://192.168.1.134:8080/player.html"
+                                    src={`${process.env.REACT_APP_CAMERA_SERVER}/player.html`}
                                     name="restreamer-player"
                                     width="100%"
                                     height="100%"
@@ -200,6 +203,58 @@ class Home extends Component {
                             }
                         </Card>
                     </Grid>
+                    {this.state.componentHeight >= this.state.videoHeight ?
+                        <Grid item xs={12}>
+                            <Card style={{ height: "24vh", margin: '2vH 0 0 0', overflow: 'hidden' }}>
+                                <Typography>
+                                    <p style={{ margin: "0", padding: "0 10px", fontSize: "2.5vh" }} align="center" >Erstelle deine eigenen Sketches!</p>
+                                </Typography>
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justify="space-evenly"
+                                    style={{ height: "15vh" }}
+                                    spacing={7}
+                                >
+                                    <Grid item md={12} lg={6} style={{ position: 'relative' }}>
+                                        <div
+                                            style={{
+                                                position: 'absolute', left: '50%', top: '50%',
+                                                transform: 'translate(-50%, -50%)',
+                                            }}
+                                        >
+                                            <Fab
+                                                variant="extended"
+                                                onClick={() => {
+                                                    this.setState({ open: true })
+                                                }}
+                                            >
+                                                <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '1vw' }} />
+                                            Upload
+                                        </Fab>
+                                        </div>
+                                    </Grid>
+                                    <Grid item md={12} lg={6} style={{ position: 'relative' }}>
+                                        <div
+                                            style={{
+                                                position: 'absolute', left: '50%', top: '50%',
+                                                transform: 'translate(-50%, -50%)',
+                                            }}
+                                        >
+                                            <Link to={"/blockly"} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                <Fab
+                                                    variant="extended"
+                                                    color="primary"
+                                                >
+                                                    <FontAwesomeIcon icon={faPlus} style={{ marginRight: '1vw' }} />
+                                                Blockly
+                                            </Fab>
+                                            </Link>
+                                        </div>
+                                    </Grid>
+                                </Grid>
+                            </Card>
+                        </Grid> : null}
                 </Grid>
                 <UploadDialog open={this.state.open} toggleDialog={() => { this.toggleDialog() }} />
                 <Snackbar

@@ -222,4 +222,15 @@ export const UI = {
     tooltip_viewer: "Hilfe",
     tooltip_moreInformation: "Mehr Informationen findest du ",
     tooltip_hint: "Wähle einen Block aus um dir die Hilfe anzeigen zu lassen",
+
+    /*
+    * Home Page
+    */
+    home_queue: "Warteschleife",
+    home_queue_EMPTY: "Es wartet aktuell niemand",
+    home_private_sketches: "Eigene SKetches",
+    home_private_sketches_EMPTY: "Du hast noch keinen Sketch hochgeladen",
+    home_upload: "Erstelle deine eigenen Sketches!",
+
+    home_upload_dialog_DEFAULT: "// Bitte füge deinen Code hier ein",
 }

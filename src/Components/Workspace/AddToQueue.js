@@ -75,19 +75,35 @@ class AddToQueue extends Component {
                 "sketch": this.props.arduino,
                 "sketch_xml": this.props.xml
             };
-            fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
-                body: JSON.stringify(data)
-            })
-                .then(data => {
-                    this.setState({ progress: false });
-                    window.location.href = "/";
+            if (process.env.React_APP_SAME_SERVER === "true") {
+                fetch(`${window.location.origin}/api/upload`, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                    body: JSON.stringify(data)
                 })
-                .catch(err => {
-                    console.log(err);
-                    this.setState({ progress: false, file: false, open: true, title: Blockly.Msg.compiledialog_headline, content: Blockly.Msg.compiledialog_text });
-                });
+                    .then(data => {
+                        this.setState({ progress: false });
+                        window.location.href = "/";
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.setState({ progress: false, file: false, open: true, title: Blockly.Msg.compiledialog_headline, content: Blockly.Msg.compiledialog_text });
+                    });
+            } else {
+                fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                    body: JSON.stringify(data)
+                })
+                    .then(data => {
+                        this.setState({ progress: false });
+                        window.location.href = "/";
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.setState({ progress: false, file: false, open: true, title: Blockly.Msg.compiledialog_headline, content: Blockly.Msg.compiledialog_text });
+                    });
+            }
         } else {
             this.createFileName();
         }
