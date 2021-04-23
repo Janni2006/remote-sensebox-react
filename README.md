@@ -1,4 +1,4 @@
- <img src="/src/components/sensebox_logo.svg?raw=true" height="128" alt="senseBox Logo"/>
+ <img src="/src/Components/sensebox_logo.svg?raw=true" height="128" alt="senseBox Logo"/>
 
 # Remote sensebox
 
@@ -11,16 +11,7 @@ This project was created with [Create React App](https://github.com/facebook/cre
 
 2. install [Node.js v10.xx](https://nodejs.org/en/) on your local machine
 
-3. open shell and navigate inside folder ``React-Ardublockly``
+3. open shell and navigate inside folder ``remote-sensebox-react``
     * run ``npm install``
     * run ``npm start``
 4. open  [localhost:3000](http://localhost:3000)
-
-## Troubleshoot
-Ensure that line 14 in [store.js](https://github.com/sensebox/React-Ardublockly/blob/master/src/store.js#L14) is commented out or otherwise you have installed [Redux DevTools Extension](http://extension.remotedev.io/).
-
-## Demo
-A demo of the current status of the master branch can be accessed via [sensebox-ardublockly.netlify.app](https://sensebox-ardublockly.netlify.app/) :rocket:.
-* [Home](https://sensebox-ardublockly.netlify.app/)
-* [Tutorial Overview](https://sensebox-ardublockly.netlify.app/tutorial)
-* [Tutorial-Builder](https://sensebox-ardublockly.netlify.app/tutorial/builder)
