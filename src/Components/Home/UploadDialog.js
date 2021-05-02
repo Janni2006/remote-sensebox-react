@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import * as Blockly from 'blockly/core';
 
 import { detectWhitespacesAndReturnReadableResult } from '../../helpers/whitespace';
@@ -11,6 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Tooltip } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 
+import Snackbar from '../Snackbar';
 import Dialog from '../Dialog';
 import Copy from '../copy.svg';
 
@@ -33,19 +35,47 @@ class UploadDialog extends Component {
             file: false,
             title: '',
             content: '',
+            snackbar: false,
+            type: '',
+            key: '',
+            message: '',
+            xml: ''
         };
     }
 
     uploadFile = (file) => {
         console.log(file)
-        if (file.name.split(".")[1] !== "ino") {
-            this.setState({ progress: false, file: false, open: true, title: "Unzulässiger Dateityp", content: "Die übergebene Datei entsprach nicht dem geforderten Format. Es sind nur INO-Dateien zulässig." });
-        } else {
+        if (file.type === 'text/xml') {
+            console.log("XML")
+            var XMLreader = new FileReader();
+            XMLreader.readAsText(file);
+            XMLreader.onloadend = () => {
+                var xmlDom = null;
+                try {
+                    xmlDom = Blockly.Xml.textToDom(XMLreader.result);
+
+                    const workspace = new Blockly.Workspace();
+                    Blockly.Xml.domToWorkspace(xmlDom, workspace);
+
+                    if (workspace.getAllBlocks().length < 1) {
+                        this.setState({ open: true, title: 'Keine Blöcke', content: 'Es wurden keine Blöcke detektiert. Bitte überprüfe den XML-Code und versuche es erneut.' });
+                    }
+                    else {
+                        this.setState({ usketch: Blockly.Arduino.workspaceToCode(workspace), sketch: Blockly.Arduino.workspaceToCode(workspace), xml: XMLreader.result })
+                    }
+                } catch (err) {
+                    this.setState({ open: true, title: 'Ungültige XML', content: 'Die XML-Datei konnte nicht in Blöcke zerlegt werden. Bitte überprüfe den XML-Code und versuche es erneut.' });
+                }
+            };
+        }
+        else if (file.name.split(".")[file.name.split(".").length] === "ino") {
             var reader = new FileReader();
             reader.readAsText(file);
             reader.onloadend = () => {
                 this.setState({ usketch: reader.result, sketch: reader.result })
             }
+        } else {
+            this.setState({ progress: false, file: false, open: true, title: "Unzulässiger Dateityp", content: "Die übergebene Datei entsprach nicht dem geforderten Format. Es sind nur INO-Dateien zulässig." });
         }
     }
 
@@ -58,8 +88,10 @@ class UploadDialog extends Component {
                 this.props.toggleDialog();
                 const data = {
                     "sketch_name": this.state.name,
-                    "sketch": this.state.sketch
+                    "sketch": this.state.sketch,
+                    "sketch_xml": this.state.xml
                 };
+                console.log(data)
                 if (process.env.React_APP_SAME_SERVER === "true") {
                     await fetch(`${window.location.origin}/api/upload`, {
                         method: "POST",
@@ -82,6 +114,7 @@ class UploadDialog extends Component {
                     })
                         .then(() => {
                             this.setState({ progress: false });
+                            this.setState({ snackbar: true, type: 'success', key: Date.now(), message: 'Das Projekt wurde erfolgreich hochgeladen.' });
                         })
                         .catch(() => {
                             this.props.toggleDialog();
@@ -141,7 +174,7 @@ class UploadDialog extends Component {
                     {this.state.progress ?
                         null :
                         <div style={{ overflow: "hidden", width: "50vw" }}>
-                            <input type="file" onChange={(e) => this.uploadFile(e.target.files[0])} accept=".ino" style={{ display: 'none' }} id="upload-sketch" />
+                            <input type="file" onChange={(e) => this.uploadFile(e.target.files[0])} accept="text/xml, .ino" style={{ display: 'none' }} id="upload-sketch" />
                             <label htmlFor="upload-sketch">
                                 <Tooltip title="Lade deinen Sketch hoch" arrow>
                                     <Button
@@ -188,6 +221,12 @@ class UploadDialog extends Component {
                         </div>
                         : null}
                 </Dialog>
+                <Snackbar
+                    open={this.state.snackbar}
+                    message={this.state.message}
+                    type={this.state.type}
+                    key={this.state.key}
+                />
             </div>
         );
     }

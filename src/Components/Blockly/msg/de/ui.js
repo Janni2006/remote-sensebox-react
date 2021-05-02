@@ -228,7 +228,7 @@ export const UI = {
     */
     home_queue: "Warteschleife",
     home_queue_EMPTY: "Es wartet aktuell niemand",
-    home_private_sketches: "Eigene SKetches",
+    home_private_sketches: "Eigene Sketches",
     home_private_sketches_EMPTY: "Du hast noch keinen Sketch hochgeladen",
     home_upload: "Erstelle deine eigenen Sketches!",
 
