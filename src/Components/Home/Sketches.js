@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,7 +11,7 @@ import ReactLoading from 'react-loading';
 
 import * as Blockly from "blockly/core";
 
-function Sketches() {
+function Sketches(props) {
     const [sketches, setSketches] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
 
@@ -20,14 +22,14 @@ function Sketches() {
                 response = await fetch(`${window.location.origin}/api/private-sketches`, {
                     method: "GET",
                     headers: {
-                        deviceID: localStorage.getItem("deviceID").toString(),
+                        sessionID: props.sessionID,
                     },
                 });
             } else {
                 response = await fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/private-sketches`, {
                     method: "GET",
                     headers: {
-                        deviceID: localStorage.getItem("deviceID").toString(),
+                        sessionID: props.sessionID,
                     },
                 });
             }
@@ -38,7 +40,7 @@ function Sketches() {
         return () => {
             clearInterval(timer);
         };
-    }, []);
+    }, [props]);
 
     return (
         <div style={{ height: "calc(55vh - 100px)", width: "100%", overflow: "auto" }}>
@@ -72,4 +74,12 @@ function Sketches() {
     )
 }
 
-export default Sketches;
+Sketches.propTypes = {
+    sessionID: PropTypes.string,
+};
+
+const mapStateToProps = state => ({
+    sessionID: state.general.sessionID
+});
+
+export default connect(mapStateToProps)(Sketches);

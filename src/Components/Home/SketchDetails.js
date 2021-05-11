@@ -27,8 +27,11 @@ import { green, red } from '@material-ui/core/colors';
 import LaunchIcon from '@material-ui/icons/Launch';
 import CheckIcon from '@material-ui/icons/Check';
 import ReplayIcon from '@material-ui/icons/Replay';
-import { faFileDownload } from "@fortawesome/free-solid-svg-icons";
+import { faFileDownload, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import * as Blockly from 'blockly/core';
+import Snackbar from '../Snackbar';
 
 class SketchDetail extends Component {
     constructor(props) {
@@ -40,6 +43,9 @@ class SketchDetail extends Component {
             open: false,
             title: "",
             content: "",
+            snackbar: false,
+            type: '',
+            message: '',
         };
         this.video = React.createRef();
     }
@@ -66,6 +72,11 @@ class SketchDetail extends Component {
         fileName = `${fileName}.ino`
         var blob = new Blob([code], { type: 'text/x-arduino' });
         saveAs(blob, fileName);
+    }
+
+    copyCode = () => {
+        navigator.clipboard.writeText(this.props.sketchDetail.code.sketch);
+        this.setState({ snackbar: true, type: 'success', key: Date.now(), message: Blockly.Msg.messages_copy_code });
     }
 
     render() {
@@ -228,7 +239,31 @@ class SketchDetail extends Component {
                                 </Grid>
                             </Card>
                         </Grid>
-                        <Grid item xs={6} md={6}>
+                        <Grid item xs={6} md={6} style={{ position: 'relative' }}>
+                            <Tooltip title="Arduino Code kopieren" arrow>
+                                <IconButton
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        position: 'absolute',
+                                        top: -8,
+                                        right: 20,
+                                        zIndex: 2,
+                                        backgroundColor: 'white',
+                                        color: 'green',
+                                        border: '1px solid #e3e3e3',
+                                        '&:hover': {
+                                            backgroundColor: 'primary',
+                                            color: 'white',
+                                            border: '1px solid primary'
+                                        }
+                                    }}
+                                    onClick={() => this.copyCode()}
+                                >
+                                    <FontAwesomeIcon icon={faCopy} size="xs" />
+                                </IconButton>
+                            </Tooltip>
+
                             <Card style={{ height: `calc(${this.state.videoHeight}px + 10.5vh)`, maxHeight: "50.5vh" }}>
                                 <Code code={this.props.sketchDetail.code.sketch} />
                             </Card>
@@ -240,7 +275,13 @@ class SketchDetail extends Component {
                         </Grid>
                     </Grid>
                 </div>
-            </div >
+                <Snackbar
+                    open={this.state.snackbar}
+                    message={this.state.message}
+                    type={this.state.type}
+                    key={this.state.key}
+                />
+            </div>
         )
     }
 }

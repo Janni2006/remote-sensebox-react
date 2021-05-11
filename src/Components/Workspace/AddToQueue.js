@@ -78,7 +78,7 @@ class AddToQueue extends Component {
             if (process.env.React_APP_SAME_SERVER === "true") {
                 fetch(`${window.location.origin}/api/upload`, {
                     method: "POST",
-                    headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                    headers: { 'Content-Type': 'application/json', 'sessionID': this.props.sessionID },
                     body: JSON.stringify(data)
                 })
                     .then(data => {
@@ -92,7 +92,7 @@ class AddToQueue extends Component {
             } else {
                 fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
                     method: "POST",
-                    headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                    headers: { 'Content-Type': 'application/json', 'sessionID': this.props.sessionID },
                     body: JSON.stringify(data)
                 })
                     .then(data => {
@@ -172,13 +172,15 @@ class AddToQueue extends Component {
 AddToQueue.propTypes = {
     arduino: PropTypes.string.isRequired,
     name: PropTypes.string,
-    workspaceName: PropTypes.func.isRequired
+    workspaceName: PropTypes.func.isRequired,
+    sessionID: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
     xml: state.workspace.code.xml,
     arduino: state.workspace.code.arduino,
-    name: state.workspace.name
+    name: state.workspace.name,
+    sessionID: state.general.sessionID
 });
 
 

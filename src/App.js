@@ -44,7 +44,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    // store.dispatch(loadUser());
     if (localStorage.getItem("deviceID") === null) {
       localStorage.setItem("deviceID", this.random(32));
     }

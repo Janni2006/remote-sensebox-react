@@ -1,10 +1,10 @@
-import { VISIT, LANGUAGE, RENDERER, STATISTICS } from '../actions/types';
+import { VISIT, LANGUAGE, RENDERER, STATISTICS, PAGELOAD } from '../actions/types';
 
 const initialLanguage = () => {
   if (window.localStorage.getItem('locale')) {
     return window.localStorage.getItem('locale');
   }
-  if (navigator.language === 'de-DE'){
+  if (navigator.language === 'de-DE') {
     return 'de_DE';
   }
   return 'en_US';
@@ -24,16 +24,23 @@ const initialStatistics = () => {
   return false;
 };
 
+const initialSessionID = () => {
+  if (window.localStorage.getItem("sessionID")) {
+    return window.localStorage.getItem("sessionID");
+  }
+}
 
 const initialState = {
   pageVisits: 0, // detect if previous URL was
   language: initialLanguage(),
   renderer: initialRenderer(),
-  statistics: initialStatistics()
+  statistics: initialStatistics(),
+  camUrl: "",
+  sessionID: initialSessionID()
 };
 
-export default function foo(state = initialState, action){
-  switch(action.type){
+export default function foo(state = initialState, action) {
+  switch (action.type) {
     case VISIT:
       return {
         ...state,
@@ -55,6 +62,11 @@ export default function foo(state = initialState, action){
       return {
         ...state,
         statistics: action.payload
+      };
+    case PAGELOAD:
+      return {
+        ...state,
+        camUrl: action.payload
       };
     default:
       return state;
