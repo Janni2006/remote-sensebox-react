@@ -46,6 +46,8 @@ class CopyCode extends Component {
         super(props);
         this.state = {
             snackbar: false,
+            type: '',
+            message: '',
         };
     }
 

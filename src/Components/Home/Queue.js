@@ -6,6 +6,7 @@ import { Card } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ListItem from '@material-ui/core/ListItem';
+import socket from '../../helpers/socketConnection';
 
 import ReactLoading from 'react-loading';
 
@@ -13,34 +14,16 @@ import * as Blockly from "blockly/core";
 
 function Queue() {
     const [queue, setQueue] = React.useState([]);
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = React.useState(false);
 
     React.useEffect(() => {
-        const timer = setInterval(async function () {
-            var response = null;
-            if (process.env.React_APP_SAME_SERVER === "true") {
-                response = await fetch(`${window.location.origin}/api/queue`, {
-                    method: "GET",
-                    headers: {
-                        deviceID: localStorage.getItem("deviceID").toString(),
-                    },
-                });
-            } else {
-                response = await fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/queue`, {
-                    method: "GET",
-                    headers: {
-                        deviceID: localStorage.getItem("deviceID").toString(),
-                    },
-                });
-            }
-            const data = await response.json();
-            setQueue(data.queue);
-            setLoading(false);
-        }, 1000);
-        return () => {
-            clearInterval(timer);
-        };
-    }, []);
+        socket.on("queueUpdate", updateData);
+    });
+
+    const updateData = data => {
+        setQueue(data);
+    }
+
     return (
         <div style={{ height: "calc(60vh - 100px)", width: "100%", overflowY: "auto" }}>
             {loading ?
