@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -12,16 +13,22 @@ import ReactLoading from 'react-loading';
 
 import * as Blockly from "blockly/core";
 
-function Queue() {
+function Queue(props) {
     const [queue, setQueue] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         socket.on("queueUpdate", updateData);
-    });
+        socket.emit("initialQueue");
+        console.log(props.sessionID)
+        return () => {
+            socket.off("queueUpdate");
+        };
+    }, [props]);
 
     const updateData = data => {
         setQueue(data);
+        setLoading(false);
     }
 
     return (
@@ -41,7 +48,7 @@ function Queue() {
                         return < QueueObject
                             key={queue_item.id}
                             friendly_name={queue_item.friendly_name}
-                            private={queue_item.private}
+                            private={queue_item.user === props.sessionID}
                             running={queue_item.running}
                             progress={queue_item.progress}
                         />
@@ -115,4 +122,8 @@ class QueueObject extends Component {
     }
 }
 
-export default Queue;
+const mapStateToProps = state => ({
+    sessionID: state.general.sessionID
+});
+
+export default connect(mapStateToProps)(Queue);

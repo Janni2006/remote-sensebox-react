@@ -24,6 +24,8 @@ import * as Blockly from "blockly/core";
 import { faPlus, faFileUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import socket from '../helpers/socketConnection';
+
 const Accordion = withStyles((theme) => ({
     root: {
         border: `1px solid ${theme.palette.secondary.main}`,
@@ -75,7 +77,8 @@ class Home extends Component {
             snackbar: false,
             type: '',
             key: '',
-            message: ''
+            message: '',
+            video: ''
         };
         this.myDiv = React.createRef();
         this.liveVideo = React.createRef();
@@ -89,6 +92,7 @@ class Home extends Component {
             videoWidth: this.liveVideo.current.offsetHeight,
             videoHeight: this.liveVideo.current.offsetWidth * 0.5625
         });
+        socket.on("video", (data) => { this.setState({ video: data }) });
     }
 
     onChange = () => {

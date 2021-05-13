@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import * as Blockly from 'blockly/core';
 
@@ -95,7 +97,7 @@ class UploadDialog extends Component {
                 if (process.env.React_APP_SAME_SERVER === "true") {
                     await fetch(`${window.location.origin}/api/upload`, {
                         method: "POST",
-                        headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                        headers: { 'Content-Type': 'application/json', 'sessionID': this.props.sessionID },
                         body: JSON.stringify(data)
                     })
                         .then(() => {
@@ -109,7 +111,7 @@ class UploadDialog extends Component {
                 else {
                     await fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
                         method: "POST",
-                        headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                        headers: { 'Content-Type': 'application/json', 'sessionID': this.props.sessionID },
                         body: JSON.stringify(data)
                     })
                         .then(() => {
@@ -232,4 +234,12 @@ class UploadDialog extends Component {
     }
 }
 
-export default (withStyles(styles, { withTheme: true })(UploadDialog));
+UploadDialog.propTypes = {
+    sessionID: PropTypes.string,
+};
+
+const mapStateToProps = state => ({
+    sessionID: state.general.sessionID
+});
+
+export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(UploadDialog));

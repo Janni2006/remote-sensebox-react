@@ -13,6 +13,7 @@ import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import { saveAs } from 'file-saver';
 
 import { detectWhitespacesAndReturnReadableResult } from '../../helpers/whitespace';
+import socket from '../../helpers/socketConnection';
 
 import Grid from '@material-ui/core/Grid';
 import { Card, Fab } from '@material-ui/core';
@@ -46,6 +47,7 @@ class SketchDetail extends Component {
             snackbar: false,
             type: '',
             message: '',
+            serial: '',
         };
         this.video = React.createRef();
     }
@@ -55,7 +57,17 @@ class SketchDetail extends Component {
             videoWidth: this.video.current.offsetHeight,
             videoHeight: this.video.current.offsetWidth * 0.5625
         });
-        console.log(this.props.sketchDetail.error_msg)
+        console.log(this.props.sketchDetail.error_msg);
+
+        socket.on("senseboxSerial", this.updateSerial);
+    }
+
+    updateSerial = data => {
+        this.setState({ serial: data });
+    }
+
+    componentWillUnmount() {
+        socket.off("senseboxSerial");
     }
 
     downloadXmlFile = () => {
@@ -202,13 +214,17 @@ class SketchDetail extends Component {
                                             justify="center"
                                             alignItems="center"
                                         >
-                                            <Grid item style={{ height: "48px", width: "100%" }}>
-                                                <SketchRestart
-                                                    title={this.props.sketchDetail.name}
-                                                    arduino={this.props.sketchDetail.code.sketch}
-                                                    xml={this.props.sketchDetail.code.xml}
-                                                />
-                                            </Grid>
+                                            {
+                                                this.props.sketchDetail.finisched ? <Grid item style={{ height: "48px", width: "100%" }}>
+                                                    <SketchRestart
+                                                        title={this.props.sketchDetail.name}
+                                                        arduino={this.props.sketchDetail.code.sketch}
+                                                        xml={this.props.sketchDetail.code.xml}
+                                                        sessionID={this.props.sessionID}
+                                                    />
+                                                </Grid>
+                                                    : null
+                                            }
 
                                             {this.props.sketchDetail.blockly && this.state.videoHeight < 300 ?
                                                 <Grid item style={{ height: "48px", wisth: "100%" }}>
@@ -270,7 +286,7 @@ class SketchDetail extends Component {
                         </Grid>
                         <Grid item xs={12} md={12}>
                             <Card style={{ height: "20vh" }}>
-                                {this.props.sketchDetail.error ? <Code code={this.props.sketchDetail.error_msg} /> : <Code code={this.props.sketchDetail.finished ? this.props.sketchDetail.serial !== null ? this.props.sketchDetail.serial : "Es sind keine Daten für die Serielle-Konsole vorhanden." : "Die Serielle Konsole ist erst nach dem Ausführen des Sketches verfügbar"} />}
+                                {this.props.sketchDetail.error ? <Code code={this.props.sketchDetail.error_msg} /> : <Code code={this.props.sketchDetail.finished ? this.props.sketchDetail.serial !== null ? this.props.sketchDetail.serial : "Es sind keine Daten für die Serielle-Konsole vorhanden." : this.state.serial} />}
                             </Card>
                         </Grid>
                     </Grid>
@@ -377,7 +393,7 @@ function SketchRestart(props) {
             if (process.env.React_APP_SAME_SERVER === "true") {
                 fetch(`${window.location.origin}/api/upload`, {
                     method: "POST",
-                    headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                    headers: { 'Content-Type': 'application/json', 'sessionID': props.sessionID },
                     body: JSON.stringify(data)
                 })
                     .then(() => {
@@ -393,7 +409,7 @@ function SketchRestart(props) {
             } else {
                 fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
                     method: "POST",
-                    headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                    headers: { 'Content-Type': 'application/json', 'sessionID': props.sessionID },
                     body: JSON.stringify(data)
                 })
                     .then(() => {
@@ -432,10 +448,12 @@ function SketchRestart(props) {
 SketchDetail.propTypes = {
     closeDetails: PropTypes.func.isRequired,
     sketchDetail: PropTypes.object.isRequired,
+    sessionID: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
-    sketchDetail: state.sketchDetail
+    sketchDetail: state.sketchDetail,
+    sessionID: state.general.sessionID,
 });
 
 export default connect(mapStateToProps, { closeDetails })(SketchDetail);
