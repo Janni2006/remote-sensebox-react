@@ -32,7 +32,7 @@ function Queue(props) {
     }
 
     return (
-        <div style={{ height: "calc(60vh - 100px)", width: "100%", overflowY: "auto" }}>
+        <div style={{ height: "calc(55vh - 100px)", width: "100%", overflowY: "auto" }}>
             {loading ?
                 <div
                     style={{

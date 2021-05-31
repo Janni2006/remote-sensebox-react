@@ -18,7 +18,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Tour from 'reactour'
-import { blockly, assessment } from './Tour';
+import { blockly } from './Tour';
 import { faBars, faChevronLeft, faLayerGroup, faQuestionCircle, faCog, faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as Blockly from 'blockly'
@@ -102,7 +102,7 @@ class Navbar extends Component {
               </Tooltip>
               : null}
             <Tour
-              steps={isBlockly ? blockly() : assessment()}
+              steps={isBlockly ? blockly() : null}
               isOpen={this.state.isTourOpen}
               onRequestClose={() => { this.closeTour(); }}
             />

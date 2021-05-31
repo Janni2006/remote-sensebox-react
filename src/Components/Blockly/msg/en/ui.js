@@ -20,7 +20,7 @@ export const UI = {
      *
      */
 
-    tooltip_compile_code: "Compile code",
+    tooltip_upload_code: "Upload code",
     tooltip_save_blocks: "Save blocks",
     tooltip_open_blocks: "Open blocks",
     tooltip_screenshot: "Download screenshot",
@@ -220,9 +220,9 @@ export const UI = {
      * Overlay
      */
 
-    compile_overlay_head: "Your program is now compiled and downloaded",
-    compile_overlay_text: "Then copy it to your senseBox MCU",
-    compile_overlay_help: "You need help? Have a look here: ",
+    upload_overlay_head: "Your program is now compiled and uploaded",
+    upload_overlay_text: "Then follow the actions live",
+    upload_overlay_help: "You need help? Have a look here: ",
 
 
     /**

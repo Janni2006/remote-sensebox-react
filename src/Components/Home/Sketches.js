@@ -51,6 +51,7 @@ function Sketches(props) {
                             finished={sketch_item.finished}
                             code={sketch_item.code}
                             error={sketch_item.error}
+                            running={sketch_item.running}
                         />
                     })}
                     {sketches && sketches.length === 0 ? <ListItem>{Blockly.Msg.home_private_sketches_EMPTY}</ListItem> : null}

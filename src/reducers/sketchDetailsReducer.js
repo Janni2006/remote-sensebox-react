@@ -12,6 +12,7 @@ const initialState = {
     serial: "",
     finished: false,
     blockly: false,
+    running: false,
     show: false,
 };
 
@@ -31,7 +32,8 @@ export default function foo(state = initialState, action) {
                 serial: action.payload.serial,
                 finished: action.payload.finished,
                 blockly: action.payload.blockly,
-                show: true
+                running: action.payload.running,
+                show: true,
             }
         case CLOSE_DETAILS:
             return {
@@ -47,6 +49,7 @@ export default function foo(state = initialState, action) {
                 serial: "",
                 finished: false,
                 blockly: false,
+                running: false,
                 show: false
             }
         default:

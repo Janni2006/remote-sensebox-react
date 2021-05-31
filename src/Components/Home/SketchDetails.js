@@ -34,6 +34,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as Blockly from 'blockly/core';
 import Snackbar from '../Snackbar';
 
+import BlocklyWindow from '../Blockly/BlocklyWindow';
+
 class SketchDetail extends Component {
     constructor(props) {
         super(props);
@@ -282,11 +284,22 @@ class SketchDetail extends Component {
 
                             <Card style={{ height: `calc(${this.state.videoHeight}px + 10.5vh)`, maxHeight: "50.5vh" }}>
                                 <Code code={this.props.sketchDetail.code.sketch} />
+                                <BlocklyWindow readonly={true} />
                             </Card>
                         </Grid>
                         <Grid item xs={12} md={12}>
                             <Card style={{ height: "20vh" }}>
-                                {this.props.sketchDetail.error ? <Code code={this.props.sketchDetail.error_msg} /> : <Code code={this.props.sketchDetail.finished ? this.props.sketchDetail.serial !== null ? this.props.sketchDetail.serial : "Es sind keine Daten für die Serielle-Konsole vorhanden." : this.state.serial} />}
+                                {this.props.sketchDetail.error ?
+                                    <Code code={this.props.sketchDetail.error_msg} /> :
+                                    <Code
+                                        code={
+                                            this.props.sketchDetail.finished ?
+                                                this.props.sketchDetail.serial !== null ?
+                                                    this.props.sketchDetail.serial.replace(/\r/g, "\n") : "Es sind keine Daten für die Serielle-Konsole vorhanden." :
+                                                this.props.sketchDetail.running ? this.state.serial.replace(/\r/g, "\n") : "Dieser Sketch wurde noch nicht auf die senseBox hochgeladen."
+                                        }
+                                    />
+                                }
                             </Card>
                         </Grid>
                     </Grid>

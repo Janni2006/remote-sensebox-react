@@ -127,9 +127,9 @@ class AddToQueue extends Component {
         return (
             <div>
                 {this.props.iconButton ?
-                    <Tooltip title={Blockly.Msg.tooltip_compile_code} arrow style={{ marginRight: '5px' }}>
+                    <Tooltip title={Blockly.Msg.tooltip_upload_code} arrow style={{ marginRight: '5px' }}>
                         <IconButton
-                            className={`compileBlocks ${this.props.classes.iconButton}`}
+                            className={`uploadBlocks ${this.props.classes.iconButton}`}
                             onClick={() => this.upload()}
                         >
                             <FontAwesomeIcon icon={faUpload} size="l" />
@@ -143,9 +143,9 @@ class AddToQueue extends Component {
                 <Backdrop className={this.props.classes.backdrop} open={this.state.progress}>
                     <div className='overlay'>
                         <img src={Copy} width="400" alt="copyimage"></img>
-                        <h2>{Blockly.Msg.compile_overlay_head}</h2>
-                        <p>{Blockly.Msg.compile_overlay_text}</p>
-                        <p>{Blockly.Msg.compile_overlay_help}<a href="/faq" target="_blank">FAQ</a></p>
+                        <h2>{Blockly.Msg.upload_overlay_head}</h2>
+                        <p>{Blockly.Msg.upload_overlay_text}</p>
+                        <p>{Blockly.Msg.upload_overlay_help}<a href="/faq" target="_blank">FAQ</a></p>
                         <CircularProgress color="inherit" />
                     </div>
                 </Backdrop>

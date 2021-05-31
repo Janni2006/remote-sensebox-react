@@ -92,7 +92,22 @@ class Home extends Component {
             videoWidth: this.liveVideo.current.offsetHeight,
             videoHeight: this.liveVideo.current.offsetWidth * 0.5625
         });
-        socket.on("video", (data) => { this.setState({ video: data }) });
+        socket.on("video", (data) => { this.setState({ video: data }); });
+    }
+
+    componentDidUpdate(props, state) {
+        if (this.myDiv.current && this.myDiv.current.offsetHeight !== this.state.componentHeight) {
+            this.setState({ componentHeight: this.myDiv.current.offsetHeight });
+        }
+        if (this.myDiv.current && this.myDiv.current.offsetWidth !== this.state.componentWidth) {
+            this.setState({ componentWidth: this.myDiv.current.offsetWidth });
+        }
+        if (this.liveVideo.current && this.liveVideo.current.offsetWidth !== this.state.videoWidth) {
+            this.setState({
+                videoWidth: this.liveVideo.current.offsetWidth,
+                videoHeight: this.liveVideo.current.offsetWidth * 0.5625
+            });
+        }
     }
 
     onChange = () => {
@@ -192,18 +207,7 @@ class Home extends Component {
                         <Card style={{ height: this.props.sketchDetail.show ? '81vh' : `${this.state.videoHeight}px`, margin: '1vH 0 0 0', overflow: 'hidden', padding: '0px', maxHeight: "88vh" }} ref={this.liveVideo}>
                             {this.props.sketchDetail.show ?
                                 <SketchDetail />
-                                : <iframe
-                                    src={`${process.env.REACT_APP_CAMERA_SERVER}/player.html`}
-                                    name="restreamer-player"
-                                    width="100%"
-                                    height="100%"
-                                    scrolling="no"
-                                    frameBorder="0"
-                                    webkitallowfullscreen="true"
-                                    mozallowfullscreen="true"
-                                    allowFullScreen="true"
-                                    title="stream"
-                                ></iframe>
+                                : <img src={this.state.video} alt="test" style={{ width: "100%" }}></img>
                             }
                         </Card>
                     </Grid>

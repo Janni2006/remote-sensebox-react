@@ -60,7 +60,7 @@ Blockly['Arduino']['controls_for'] = function (Block) {
                 Block,
                 'BY',
                 Blockly['Arduino'].ORDER_ASSIGNMENT
-            )
+            ), 10
         )
     );
 
