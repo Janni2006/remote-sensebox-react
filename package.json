@@ -30,7 +30,7 @@
     "react-markdown": "^5.0.2",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^1.1.5",
+    "react-scripts": "^4.0.3",
     "reactour": "^1.18.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
@@ -50,7 +50,6 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
       "not op_mini all"
     ],
     "development": [
