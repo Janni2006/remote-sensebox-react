@@ -7,6 +7,10 @@ export const visitPage = () => (dispatch) => {
   });
 };
 
+export const setInitial = () => (dispatch) => {
+  
+}
+
 export const setLanguage = (language) => (dispatch, getState) => {
   window.localStorage.setItem('locale', language);
 
@@ -33,16 +37,15 @@ export const setStatistics = (showStatistics) => (dispatch) => {
 export const onPageLoad = () => (dispatch) => {
   const config = {
     success: res => {
-      var url = res.data;
-      if (url) {
-        dispatch({ type: PAGELOAD, payload: url });
+      if (res.data) {
+        dispatch({ type: PAGELOAD, payload: res.data });
       }
     },
     error: err => {
     }
   };
   if (process.env.React_APP_SAME_SERVER === "true") {
-    axios.get(`${window.location.origin}/api/cam`, config)
+    axios.get(`${window.location.origin}/api/initial`, config)
       .then(res => {
         res.config.success(res);
       })
@@ -50,7 +53,7 @@ export const onPageLoad = () => (dispatch) => {
         err.config.error(err);
       });
   } else {
-    axios.get(`${process.env.REACT_APP_REMOTE_BACKEND}/api/cam`, config)
+    axios.get(`${process.env.REACT_APP_REMOTE_BACKEND}/api/initial`, config)
       .then(res => {
         res.config.success(res);
       })
