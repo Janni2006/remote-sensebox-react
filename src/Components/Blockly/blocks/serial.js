@@ -1,5 +1,6 @@
 import * as Blockly from "blockly/core";
 import { getColour } from "../helpers/colour";
+import store from '../../../store';
 // import { selectedBoard } from "../helpers/board";
 
 Blockly.Blocks["init_serial_monitor"] = {
@@ -18,7 +19,7 @@ Blockly.Blocks["init_serial_monitor"] = {
             .appendField(Blockly.Msg.ARD_SERIAL_SPEED)
             .appendField(
                 // new Blockly.FieldDropdown(selectedBoard().serialSpeed),
-                new Blockly.FieldDropdown([['9600', '9600']]),
+                new Blockly.FieldDropdown([[store.getState().general.baudeRate.toString(), store.getState().general.baudeRate.toString()]]),
                 "SPEED"
             )
             .appendField(Blockly.Msg.ARD_SERIAL_BPS);

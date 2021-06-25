@@ -15,6 +15,7 @@ export const RENDERER = 'RENDERER';
 export const STATISTICS = 'STATISTICS';
 export const PAGELOAD = 'PAGELOAD';
 export const SESSION_ID = 'SESSION_ID';
+export const INITIAL = 'INITIAL';
 
 // messages
 export const GET_ERRORS = 'GET_ERRORS';

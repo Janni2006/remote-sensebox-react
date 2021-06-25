@@ -9,8 +9,6 @@ const sessionID = localStorage.getItem("sessionID");
 if (sessionID) {
     socket.auth = { sessionID };
     socket.connect();
-
-    console.log("socket: ",socket)
 }else{console.log("no session id"); console.log(store.getState())}
 
 socket.on("session", (sessionID) => {

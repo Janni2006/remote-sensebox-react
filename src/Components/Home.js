@@ -78,7 +78,6 @@ class Home extends Component {
             type: '',
             key: '',
             message: '',
-            video: ''
         };
         this.myDiv = React.createRef();
         this.liveVideo = React.createRef();
@@ -92,7 +91,6 @@ class Home extends Component {
             videoWidth: this.liveVideo.current.offsetHeight,
             videoHeight: this.liveVideo.current.offsetWidth * 0.5625
         });
-        socket.on("video", (data) => { this.setState({ video: data }); });
         socket.emit("initialQueue");
     }
 
@@ -208,7 +206,18 @@ class Home extends Component {
                         <Card style={{ height: this.props.sketchDetail.show ? '81vh' : `${this.state.videoHeight}px`, margin: '1vH 0 0 0', overflow: 'hidden', padding: '0px', maxHeight: "88vh" }} ref={this.liveVideo}>
                             {this.props.sketchDetail.show ?
                                 <SketchDetail />
-                                : <img src={this.state.video} alt="test" style={{ width: "100%" }}></img>
+                                : <iframe 
+                                    src={this.props.camUrl}
+                                    name="cam"
+                                    width="100%"
+                                    height="100%"
+                                    scrolling="no"
+                                    frameBorder="0"
+                                    webkitallowfullscreen="true"
+                                    mozallowfullscreen="true"
+                                    allowFullScreen="true"
+                                    title="stream"
+                                />
                             }
                         </Card>
                     </Grid>
@@ -283,7 +292,8 @@ Home.propTypes = {
 
 const mapStateToProps = (state) => ({
     message: state.message,
-    sketchDetail: state.sketchDetail
+    sketchDetail: state.sketchDetail,
+    camUrl: state.general.camUrl
 });
 
 export default connect(mapStateToProps, { openDetails })(Home);

@@ -120,8 +120,8 @@ class SketchDetail extends Component {
                         <Grid item xs={6} md={6}>
                             <Card style={{ height: `${this.state.videoHeight}px`, maxHeight: "40vh" }} ref={this.video}>
                                 <iframe
-                                    src={`${process.env.REACT_APP_CAMERA_SERVER}/player.html`}
-                                    name="restreamer-player"
+                                    src={this.props.camUrl}
+                                    name="cam"
                                     width="100%"
                                     height="100%"
                                     scrolling="no"
@@ -460,11 +460,13 @@ SketchDetail.propTypes = {
     closeDetails: PropTypes.func.isRequired,
     sketchDetail: PropTypes.object.isRequired,
     sessionID: PropTypes.string,
+    camUrl: PropTypes.string
 }
 
 const mapStateToProps = state => ({
     sketchDetail: state.sketchDetail,
     sessionID: state.general.sessionID,
+    camUrl: state.general.camUrl
 });
 
 export default connect(mapStateToProps, { closeDetails })(SketchDetail);

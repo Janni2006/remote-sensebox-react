@@ -36,7 +36,8 @@ const initialState = {
   renderer: initialRenderer(),
   statistics: initialStatistics(),
   camUrl: "",
-  sessionID: initialSessionID()
+  sessionID: initialSessionID(),
+  baudeRate: 0
 };
 
 export default function foo(state = initialState, action) {
@@ -66,7 +67,8 @@ export default function foo(state = initialState, action) {
     case PAGELOAD:
       return {
         ...state,
-        camUrl: action.payload
+        camUrl: action.payload.camUrl,
+        baudeRate: action.payload.baudeRate
       };
     case SESSION_ID:
       return {

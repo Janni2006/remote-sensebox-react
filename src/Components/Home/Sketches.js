@@ -26,7 +26,6 @@ function Sketches(props) {
     const updateData = data => {
         setSketches(data);
         setLoading(false);
-        console.log(data)
     }
 
     return (
