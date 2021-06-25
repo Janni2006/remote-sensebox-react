@@ -36,9 +36,6 @@ export const openDetails = (sketchID) => (dispatch) => {
             });
     } else {
         axios.get(`${process.env.REACT_APP_REMOTE_BACKEND}/api/sketch/${sketchID}`, {
-            headers: {
-                deviceID: localStorage.getItem("deviceID").toString(),
-            },
         })
             .then(res => {
                 config.success(res);

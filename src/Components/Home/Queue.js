@@ -19,7 +19,6 @@ function Queue(props) {
 
     React.useEffect(() => {
         socket.on("queueUpdate", updateData);
-        socket.emit("initialQueue");
         console.log(props.sessionID)
         return () => {
             socket.off("queueUpdate");

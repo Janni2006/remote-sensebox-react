@@ -230,7 +230,6 @@ class SketchDetail extends Component {
 
                                             {this.props.sketchDetail.blockly && this.state.videoHeight < 300 ?
                                                 <Grid item style={{ height: "48px", wisth: "100%" }}>
-                                                    <Grid item md={6} lg={3} style={{ position: 'relative' }}>
                                                         <Tooltip title="Öffne das Programm in der Blockly-Umgebung" arrow>
                                                             <Link to={`/blockly/${this.props.sketchDetail.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                                                 <Fab
@@ -247,7 +246,6 @@ class SketchDetail extends Component {
                                                     </Fab>
                                                             </Link>
                                                         </Tooltip>
-                                                    </Grid>
                                                 </Grid>
                                                 : null
                                             }

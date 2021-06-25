@@ -41,6 +41,7 @@ const CodeEditor = (props) => {
                 value={content}
                 onChange={(evt) => { setContent(evt.target.value); props.onChange(evt.target.value); }}
                 onKeyDown={handleKeyDown}
+                style={{color:'transparent'}}
             />
             <pre className="code-output line-numbers">
                 <code className={`language-clike`}>{content}</code>

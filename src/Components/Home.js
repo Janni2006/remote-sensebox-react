@@ -93,6 +93,7 @@ class Home extends Component {
             videoHeight: this.liveVideo.current.offsetWidth * 0.5625
         });
         socket.on("video", (data) => { this.setState({ video: data }); });
+        socket.emit("initialQueue");
     }
 
     componentDidUpdate(props, state) {
