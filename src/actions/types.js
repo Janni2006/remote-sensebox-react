@@ -14,6 +14,7 @@ export const LANGUAGE = 'LANGUAGE';
 export const RENDERER = 'RENDERER';
 export const STATISTICS = 'STATISTICS';
 export const PAGELOAD = 'PAGELOAD';
+export const SESSION_ID = 'SESSION_ID';
 
 // messages
 export const GET_ERRORS = 'GET_ERRORS';

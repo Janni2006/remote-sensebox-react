@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import * as Blockly from 'blockly/core';
 
 import { detectWhitespacesAndReturnReadableResult } from '../../helpers/whitespace';
 
 import { withStyles } from '@material-ui/core/styles';
-import Editor from "@monaco-editor/react";
 import Button from '@material-ui/core/Button';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -15,6 +16,8 @@ import TextField from '@material-ui/core/TextField';
 import Snackbar from '../Snackbar';
 import Dialog from '../Dialog';
 import Copy from '../copy.svg';
+
+import CodeEditor from './CodeEditor';
 
 const styles = (theme) => ({
     backdrop: {
@@ -95,7 +98,7 @@ class UploadDialog extends Component {
                 if (process.env.React_APP_SAME_SERVER === "true") {
                     await fetch(`${window.location.origin}/api/upload`, {
                         method: "POST",
-                        headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                        headers: { 'Content-Type': 'application/json', 'sessionID': this.props.sessionID },
                         body: JSON.stringify(data)
                     })
                         .then(() => {
@@ -109,7 +112,7 @@ class UploadDialog extends Component {
                 else {
                     await fetch(`${process.env.REACT_APP_REMOTE_BACKEND}/api/upload`, {
                         method: "POST",
-                        headers: { 'Content-Type': 'application/json', 'deviceID': localStorage.getItem("deviceID") },
+                        headers: { 'Content-Type': 'application/json', 'sessionID': this.props.sessionID },
                         body: JSON.stringify(data)
                     })
                         .then(() => {
@@ -138,7 +141,7 @@ class UploadDialog extends Component {
         this.setState({ open: !this.state.open });
     }
 
-    handleEditorChange = (value, event) => {
+    handleEditorChange = (value) => {
         this.setState({ sketch: value });
         console.log(value)
     };
@@ -181,19 +184,13 @@ class UploadDialog extends Component {
                                         variant="contained"
                                         color="primary"
                                         component="span"
+                                        style={{ borderRadius: '25px', }}
                                     >
                                         Hochladen
-                            </Button>
+                                    </Button>
                                 </Tooltip>
                             </label>
-                            <Editor
-                                height="50vh"
-                                width="50vw"
-                                defaultLanguage="cpp"
-                                defaultValue={Blockly.Msg.home_upload_dialog_DEFAULT}
-                                onChange={this.handleEditorChange}
-                                value={this.state.usketch}
-                            />
+                            <CodeEditor default="//plese paste your code in here" onChange={this.handleEditorChange} />
                         </div>
                     }
                 </Dialog>
@@ -232,4 +229,12 @@ class UploadDialog extends Component {
     }
 }
 
-export default (withStyles(styles, { withTheme: true })(UploadDialog));
+UploadDialog.propTypes = {
+    sessionID: PropTypes.string,
+};
+
+const mapStateToProps = state => ({
+    sessionID: state.general.sessionID
+});
+
+export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(UploadDialog));

@@ -1,4 +1,4 @@
-import { VISIT, LANGUAGE, RENDERER, STATISTICS, PAGELOAD } from '../actions/types';
+import { VISIT, LANGUAGE, RENDERER, STATISTICS, PAGELOAD, SESSION_ID } from '../actions/types';
 
 const initialLanguage = () => {
   if (window.localStorage.getItem('locale')) {
@@ -68,6 +68,11 @@ export default function foo(state = initialState, action) {
         ...state,
         camUrl: action.payload
       };
+    case SESSION_ID:
+      return {
+        ...state,
+        sessionID: action.payload
+      }
     default:
       return state;
   }

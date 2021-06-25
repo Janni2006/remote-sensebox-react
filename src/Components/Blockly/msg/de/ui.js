@@ -18,7 +18,7 @@ export const UI = {
      *
      */
 
-    tooltip_compile_code: "Code kompilieren",
+    tooltip_upload_code: "Code hochladen",
     tooltip_save_blocks: "Blöcke speichern",
     tooltip_open_blocks: "Blöcke öffnen",
     tooltip_screenshot: "Screenshot erstellen",
@@ -211,9 +211,9 @@ export const UI = {
      * Overlay
      */
 
-    compile_overlay_head: "Dein Programm wird nun kompiliert und heruntergeladen",
-    compile_overlay_text: "Kopiere es anschließend auf deine senseBox MCU",
-    compile_overlay_help: "Benötigst du mehr Hilfe? Dann schaue hier: ",
+    upload_overlay_head: "Dein Programm wird nun kompiliert und hochgeladen",
+    upload_overlay_text: "Du kannst anschließend die Aktionen hier live verfolgen",
+    upload_overlay_help: "Benötigst du mehr Hilfe? Dann schaue hier: ",
 
     /**
      * Tooltip Viewer

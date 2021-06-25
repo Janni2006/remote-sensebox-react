@@ -52,6 +52,24 @@ class SketchObject extends Component {
                                 >
                                     Finished
                                         </p> : null}
+                            {this.props.running ?
+                                <p
+                                    style={{
+                                        fontSize: "12px",
+                                        fontWeight: "bold",
+                                        margin: "0px",
+                                        marginTop: "2.5px",
+                                        marginBottom: "2.5px",
+                                        border: "1.5px solid rgb(35, 144, 35)",
+                                        width: "48px",
+                                        padding: "1.5px 4px 1.5px 4px",
+                                        borderRadius: "10px",
+                                        backgroundColor: "rgb(132, 225, 132)",
+                                        color: "rgb(35, 144, 35)"
+                                    }}
+                                >
+                                    Running
+                                        </p> : null}
                             {this.props.blockly ?
                                 <p
                                     style={{
