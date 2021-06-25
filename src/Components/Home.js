@@ -111,7 +111,6 @@ class Home extends Component {
 
     onChange = () => {
         this.setState({ expanded: !this.state.expanded });
-        console.log(this.state)
     }
 
     toggleDialog = () => {

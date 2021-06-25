@@ -44,7 +44,7 @@ export const onPageLoad = () => (dispatch) => {
     error: err => {
     }
   };
-  if (process.env.React_APP_SAME_SERVER === "true") {
+  if (process.env.REACT_APP_SAME_SERVER === "true") {
     axios.get(`${window.location.origin}/api/initial`, config)
       .then(res => {
         res.config.success(res);
