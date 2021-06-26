@@ -401,7 +401,7 @@ function SketchRestart(props) {
                 "sketch": props.arduino,
                 "sketch_xml": props.xml
             };
-            if (process.env.React_APP_SAME_SERVER === "true") {
+            if (process.env.REACT_APP_SAME_SERVER === "true") {
                 fetch(`${window.location.origin}/api/upload`, {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json', 'sessionID': props.sessionID },

@@ -95,7 +95,7 @@ class UploadDialog extends Component {
                     "sketch_xml": this.state.xml
                 };
                 console.log(data)
-                if (process.env.React_APP_SAME_SERVER === "true") {
+                if (process.env.REACT_APP_SAME_SERVER === "true") {
                     await fetch(`${window.location.origin}/api/upload`, {
                         method: "POST",
                         headers: { 'Content-Type': 'application/json', 'sessionID': this.props.sessionID },

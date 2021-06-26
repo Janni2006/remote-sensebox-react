@@ -32,7 +32,7 @@ export const getProject = (id) => (dispatch) => {
       dispatch({ type: PROJECT_PROGRESS });
     }
   };
-  if (process.env.React_APP_SAME_SERVER === "true") {
+  if (process.env.REACT_APP_SAME_SERVER === "true") {
     axios.get(`${window.location.origin}/api/sketch/${id}`, config)
       .then(res => {
         res.config.success(res);

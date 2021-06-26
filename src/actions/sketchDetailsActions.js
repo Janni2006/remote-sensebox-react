@@ -22,7 +22,7 @@ export const openDetails = (sketchID) => (dispatch) => {
             }
         }
     }
-    if (process.env.React_APP_SAME_SERVER === "true") {
+    if (process.env.REACT_APP_SAME_SERVER === "true") {
         axios.get(`${window.location.origin}/api/sketch/${sketchID}`, {
             headers: {
                 deviceID: localStorage.getItem("deviceID").toString(),
